@@ -6,5 +6,4 @@ For our group project, we pick [Train-Ticket](https://github.comFudanSELab/train
 ### Team
 Team Leader: `Eric Jaroszewski`
 Team Members: `Evan Berryman`,`Yangzekun Gao`,`Zhengyan Hu`,`Maiqi Hou`
-
 ---
