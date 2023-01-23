@@ -3,6 +3,5 @@
 For our group project, we pick [Train-Ticket](https://github.comFudanSELab/train-ticket) microservice project
 ### Team
 Team Leader: `Eric Jaroszewski`
-
 Team Members: `Evan Berryman`,`Yangzekun Gao`,`Zhengyan Hu`,`Maiqi Hou`
 
