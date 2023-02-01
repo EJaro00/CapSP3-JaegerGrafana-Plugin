@@ -37,8 +37,8 @@
 3. Once you have done above steps, you need you to locate the `Grafana.ini` file. The default path on ubuntu: `/etc/grafana/Grafana.ini`
     **In the Grafana.ini file make sure following variable has been modified**
     1. Find plugins paths setting:
-        [paths]
-        plugins = /var/lib/grafana/plugins
+    `[paths]`
+    `plugins = /var/lib/grafana/plugins`
     2. Find `allow_loading_unsigned_plugins`
     `allow_loading_unsigned_plugins = your demo plugins name`
     3. Setting app mode to development
@@ -49,6 +49,8 @@
     ```
 
 5. 
+![images](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/Demo%20Plugin/IMG/1.png)
+
 ---
 You may use my demo plugins, you just copy my demo folder into the plugins folder and just finish step 4. 
 
