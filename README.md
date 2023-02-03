@@ -58,8 +58,9 @@ You may use my demo plugins, you just copy my demo folder into the plugins folde
     yarn watch
    ```
 Now You can see the plugin likes that screenshots blow:
-![images](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/tree/Maiqi/IMG/1.png)
-![images](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/tree/Maiqi/IMG/2.png)
+![images](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/Maiqi/IMG/1.png)
+
+![images](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/Maiqi/IMG/2.png)
 
 ---
 
