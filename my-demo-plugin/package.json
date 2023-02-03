@@ -1,7 +1,7 @@
 {
-  "name": "hmq-hmq-plugin",
+  "name": "gao-my-panel-example",
   "version": "1.0.0",
-  "description": "it is demo plugin",
+  "description": "example",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
@@ -10,7 +10,7 @@
     "sign": "grafana-toolkit plugin:sign",
     "start": "yarn watch"
   },
-  "author": "Maiqi Hou",
+  "author": "Gao",
   "license": "Apache-2.0",
   "devDependencies": {
     "@grafana/toolkit": "latest"

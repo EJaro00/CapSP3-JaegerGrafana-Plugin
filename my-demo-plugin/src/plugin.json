@@ -1,12 +1,12 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "type": "panel",
-  "name": "hmq-plugin",
-  "id": "hmq-hmq-plugin",
+  "name": "myPanel-example",
+  "id": "gao-my-panel-example",
   "info": {
-    "description": "it is demo plugin",
+    "description": "example",
     "author": {
-      "name": "Maiqi Hou",
+      "name": "Gao",
       "url": ""
     },
     "keywords": [],
