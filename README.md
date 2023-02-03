@@ -47,11 +47,19 @@
     ```bash
     sudo systemctl restart grafana-server
     ```
-
-5. 
-![images](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/Demo%20Plugin/IMG/1.png)
-
 ---
 You may use my demo plugins, you just copy my demo folder into the plugins folder and just finish step 4. 
+1. Put the hmq-plugin folder into Grafana plugins folder
+2. `cd hmq-plugin`
+3. ```bash
+    yarn install
+   ```
+4. ```bash
+    yarn watch
+   ```
+Now You can see the plugin likes that screenshots blow:
+![images](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/tree/Maiqi/IMG/1.png)
+![images](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/tree/Maiqi/IMG/2.png)
 
+---
 

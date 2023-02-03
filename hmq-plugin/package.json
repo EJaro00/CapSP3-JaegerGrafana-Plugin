@@ -1,0 +1,28 @@
+{
+  "name": "hmq-hmq-plugin",
+  "version": "1.0.0",
+  "description": "it is demo plugin",
+  "scripts": {
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch",
+    "sign": "grafana-toolkit plugin:sign",
+    "start": "yarn watch"
+  },
+  "author": "Maiqi Hou",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@grafana/toolkit": "latest",
+    "@types/d3": "^7.4.0"
+  },
+  "dependencies": {
+    "@grafana/data": "latest",
+    "@grafana/ui": "latest",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
