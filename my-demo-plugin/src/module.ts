@@ -2,16 +2,9 @@ import { PanelPlugin } from '@grafana/data';
 import { SimpleOptions } from './types';
 import { SimplePanel } from './SimplePanel';
 
-export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).useFieldConfig().setPanelOptions(builder => {
+
+export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOptions((builder) => {
   return builder
-  // new code
-    .addNumberInput({
-      path: 'limit',
-      name: 'Limit',
-      description: 'limits the number of rows desplayed',
-      defaultValue: 10,
-    })
-  // new code
     .addTextInput({
       path: 'text',
       name: 'Simple text option',
@@ -43,6 +36,18 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).useFieldConfig
           },
         ],
       },
-      showIf: config => config.showSeriesCount,
+      showIf: (config) => config.showSeriesCount,
+    })
+    .addTextInput({
+      path: 'node',
+      name: 'node name',
+      description: 'all nodes',
+      defaultValue: ''
+    })
+    .addTextInput({
+      path: 'connection',
+      name: 'node connection',
+      description: 'show the connection between nodes',
+      defaultValue: ''
     });
 });

@@ -1,0 +1,14 @@
+
+circle {
+	fill: cadetblue;
+  }
+  line {
+	stroke: orange;
+  }
+  text {
+	text-anchor: middle;
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	fill: red;
+	font-size: 16px;
+  }
+  
