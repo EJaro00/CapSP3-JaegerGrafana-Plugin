@@ -47,6 +47,11 @@ For more information about panels, refer to the documentation on [Panels](https:
    ```bash
    yarn build
    ```
+  
+4. Add d3.js
+   ```bash
+   yarn add --dev @types/d3
+   ```
 
 ## Learn more
 
