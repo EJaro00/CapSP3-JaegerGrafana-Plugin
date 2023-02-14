@@ -2,7 +2,7 @@ type SeriesSize = 'sm' | 'md' | 'lg';
 type CircleColor = 'red' | 'green' | 'blue';
 
 export interface SimpleOptions {
-  color:CircleColor;
+  color: CircleColor;
   node: string;
   link: string;
   text: string;
