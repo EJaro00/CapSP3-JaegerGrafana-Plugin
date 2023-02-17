@@ -54,3 +54,11 @@ For more information about panels, refer to the documentation on [Panels](https:
 - [Grafana documentation](https://grafana.com/docs/)
 - [Grafana Tutorials](https://grafana.com/tutorials/) - Grafana Tutorials are step-by-step guides that help you make the most of Grafana
 - [Grafana UI Library](https://developers.grafana.com/ui) - UI components to help you build interfaces using Grafana Design System
+
+### demo show
+- origin three nodes, which are Database Node(DSNode), testDB, and nacoDB
+![image](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/Maiqi/d-3-test-plugin/IMG/1.png)
+- add subnode of testDB, which are tsDB-0, tsDB-1, and tsDB-2
+![image](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/Maiqi/d-3-test-plugin/IMG/2.png)
+- connect already exist subnode
+![image](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/Maiqi/d-3-test-plugin/IMG/3.png)
