@@ -48,5 +48,5 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
       name: 'Connect exist Nodes',
       description: 'Enter exist source and target ',
       defaultValue: ''
-    })
+    });
 });
