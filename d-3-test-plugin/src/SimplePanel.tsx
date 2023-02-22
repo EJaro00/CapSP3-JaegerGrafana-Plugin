@@ -11,6 +11,7 @@ let nodes = [{name: 'DBNode'},{name: 'tsDB'},{name: 'nacoDB'}]
 let links = [{source: 0, target: 1},{source: 0, target: 2}]
 
 
+
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
   const theme = useTheme();
   
