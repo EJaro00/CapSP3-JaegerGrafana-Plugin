@@ -8,4 +8,5 @@ export interface SimpleOptions {
   text: string;
   showSeriesCount: boolean;
   seriesCountSize: SeriesSize;
+  removeNode: string;
 }

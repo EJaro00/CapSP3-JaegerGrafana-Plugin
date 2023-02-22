@@ -40,10 +40,35 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
         }
       }
     }
-
   }
 
   function updateNodes() {
+    d3.select('.nodes')
+      .selectAll('circle')
+      .data(nodes)
+      .join('circle')
+      .attr('cx', function(d:any){return d.x})
+      .attr('cy', function(d:any){return d.y})
+      .attr('r', function(d:any){
+        if(d.index == 0){
+          return 25
+        }
+        if(d.index < 3){
+          return 20
+        }
+        return 15
+      })
+      .attr('opacity', 0.3)
+      .attr('fill', function(d:any){
+        if(d.index == 0){
+          return theme.palette.yellow
+        }
+        if(d.index < 3){
+          return theme.palette.blue80
+        }
+        return theme.palette.red88
+      });
+
     d3.select('.nodes')
       .selectAll('text')
       .data(nodes)
@@ -51,19 +76,33 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       .text(function(d) {
         return d.name
       })
-      .attr('x', function(d: any) {
-        return d.x
-      })
-      .attr('y', function(d: any) {
-        return d.y
-      })
-      .attr('dy', function(d) {
-        return 10
-      })
+      .attr('x', function(d: any) {return d.x})
+      .attr('y', function(d: any) {return d.y})
+      .attr('dx', function(d){return -15})
+      .attr('dy', function(d) {return -15})
       .attr('fill',theme.palette.greenBase);
   }
   
   function updateLinks() {
+    d3.select('.nodes')
+      .selectAll('path')
+      .data(links)
+      .join('path')
+      .attr('d', (d:any) =>{
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const dr = Math.sqrt(dx * dx + dy * dy);
+        const arrowSize = 10;
+        const offsetX = (dx * arrowSize)/dr;
+        const offsetY = (dy * arrowSize)/dr;
+        return `M ${d.source.x}, ${d.source.y} 
+                L ${d.target.x}, ${d.target.y}
+                M ${d.target.x - offsetX - offsetY}, ${d.target.y - offsetY + offsetX}
+                L ${d.target.x}, ${d.target.y}
+                L ${d.target.x - offsetX + offsetY}, ${d.target.y - offsetX -offsetY}
+                Z`;
+      })
+      .attr('fill', theme.palette.yellow)
     d3.select('.links')
       .selectAll('line')
       .data(links)
@@ -80,10 +119,10 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       .attr('y2', function(d: any) {
         return d.target.y
       })
-      .attr('stroke','#ccc');
+      .attr('stroke','#ccc')
   }
 
-  add();
+  add()
   function ticked() {
     updateLinks();
     updateNodes();
@@ -104,12 +143,10 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
 };
 
 function checkDuplicateLink(linked: {source: number, target: number}): boolean{
-  console.log(links.length)
   for(let j = 0; j < links.length; j++){
     let s = links[j].source as any;
     let t = links[j].target as any;
     if(s.index === linked.source && t.index === linked.target){
-      console.log('link is duplicate')
       return false
     }
   }
