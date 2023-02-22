@@ -49,25 +49,9 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       .join('circle')
       .attr('cx', function(d:any){return d.x})
       .attr('cy', function(d:any){return d.y})
-      .attr('r', function(d:any){
-        if(d.index == 0){
-          return 25
-        }
-        if(d.index < 3){
-          return 20
-        }
-        return 15
-      })
-      .attr('opacity', 0.3)
-      .attr('fill', function(d:any){
-        if(d.index == 0){
-          return theme.palette.yellow
-        }
-        if(d.index < 3){
-          return theme.palette.blue80
-        }
-        return theme.palette.red88
-      });
+      .attr('r', 20)
+      .attr('opacity', 0.5)
+      .attr('fill', theme.palette.blue80);
 
     d3.select('.nodes')
       .selectAll('text')
@@ -84,42 +68,65 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
   }
   
   function updateLinks() {
-    d3.select('.nodes')
+    d3.select('.links')
       .selectAll('path')
       .data(links)
       .join('path')
-      .attr('d', (d:any) =>{
+      .attr('d', (d: any) => {
         const dx = d.target.x - d.source.x;
         const dy = d.target.y - d.source.y;
-        const dr = Math.sqrt(dx * dx + dy * dy);
-        const arrowSize = 10;
-        const offsetX = (dx * arrowSize)/dr;
-        const offsetY = (dy * arrowSize)/dr;
-        return `M ${d.source.x}, ${d.source.y} 
-                L ${d.target.x}, ${d.target.y}
-                M ${d.target.x - offsetX - offsetY}, ${d.target.y - offsetY + offsetX}
-                L ${d.target.x}, ${d.target.y}
-                L ${d.target.x - offsetX + offsetY}, ${d.target.y - offsetX -offsetY}
-                Z`;
+        const l = Math.sqrt(dx * dx + dy * dy);
+        const sx = d.source.x + (dx * 20) / l;
+        const sy = d.source.y + (dy * 20) / l;
+        const tx = d.target.x - (dx * 20) / l;
+        const ty = d.target.y - (dy * 20) / l;
+        const arrowSize = 8;
+        const offsetX = (dx * arrowSize) / l;
+        const offsetY = (dy * arrowSize) / l;
+        return `M ${sx},${sy} 
+                L ${tx},${ty} 
+                M ${tx - offsetX - offsetY},${ty - offsetY + offsetX} 
+                L ${tx},${ty} L ${tx - offsetX + offsetY},${ty - offsetY - offsetX} Z`;
       })
-      .attr('fill', theme.palette.yellow)
-    d3.select('.links')
+      .attr('fill', theme.palette.white)
+
+      d3.select('.links')
       .selectAll('line')
       .data(links)
       .join('line')
       .attr('x1', function(d: any) {
-        return d.source.x
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const l = Math.sqrt(dx * dx + dy * dy);
+        const sx = d.source.x + (dx * 20) / l;
+        //const sy = d.source.y + (dy * 20) / l;
+        return sx;
       })
       .attr('y1', function(d: any) {
-        return d.source.y
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const l = Math.sqrt(dx * dx + dy * dy);
+        //const sx = d.source.x + (dx * 20) / l;
+        const sy = d.source.y + (dy * 20) / l;
+        return sy;
       })
       .attr('x2', function(d: any) {
-        return d.target.x
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const l = Math.sqrt(dx * dx + dy * dy);
+        const tx = d.target.x - (dx * 20) / l;
+        //const ty = d.target.y - (dy * 20) / l;
+        return tx;
       })
       .attr('y2', function(d: any) {
-        return d.target.y
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const l = Math.sqrt(dx * dx + dy * dy);
+        //const tx = d.target.x - (dx * 20) / l;
+        const ty = d.target.y - (dy * 20) / l;
+        return ty;
       })
-      .attr('stroke','#ccc')
+      .attr('stroke', '#ccc');
   }
 
   add()
@@ -128,7 +135,8 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     updateNodes();
   }
   
-  let simulate = d3.forceSimulation(nodes as SimulationNodeDatum[]).force('charge', d3.forceManyBody().strength(-1000))
+  let simulate = d3.forceSimulation(nodes as SimulationNodeDatum[])
+    .force('charge', d3.forceManyBody().strength(-1500))
     .force('center', d3.forceCenter(width / 2, height / 2))
     .force('link', d3.forceLink().links(links))
     .on('tick', ticked);
