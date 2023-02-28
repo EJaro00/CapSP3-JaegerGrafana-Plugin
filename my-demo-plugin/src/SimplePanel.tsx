@@ -7,68 +7,102 @@ import { SimulationNodeDatum} from 'd3';
 
 interface Props extends PanelProps<SimpleOptions> {}
 
-let nodes = [{name: 'DBNode'},{name: 'tsDB'},{name: 'nacoDB'}]
-let links = [{source: 0, target: 1},{source: 0, target: 2}]
+// let nodes = [{name: 'DBNode'},{name: 'tsDB'},{name: 'nacoDB'}]
+// let links = [{source: 0, target: 1},{source: 0, target: 2}]
 
-function checkDuplicateLink(linked: {source: number, target: number}): boolean{
-  for(let j = 0; j < links.length; j++){
-    let s = links[j].source as any;
-    let t = links[j].target as any;
-    if(s.index === linked.source && t.index === linked.target){
-      return false
-    }
-  }
-  return true
-}
+// function checkDuplicateLink(linked: {source: number, target: number}): boolean{
+//   for(let j = 0; j < links.length; j++){
+//     let s = links[j].source as any;
+//     let t = links[j].target as any;
+//     if(s.index === linked.source && t.index === linked.target){
+//       return false
+//     }
+//   }
+//   return true
+// }
 
-function checkDuplicateName(nameString: { name: string; }, 
-  linked: {source: number, target: number}): boolean{
+// function checkDuplicateName(nameString: { name: string; }, 
+//   linked: {source: number, target: number}): boolean{
 
-  for(let i = 0; i < nodes.length; i++){
-    if(nodes[i].name === nameString.name){
-      return false
-    }
-  }
-  for(let j = 0; j < links.length; j++){
-    let s = links[j].source as any;
-    let t = links[j].target as any;
-    if(s.index === linked.source && t.index === linked.target){
-      return false
-    }
-  }
-  return true
-}
+//   for(let i = 0; i < nodes.length; i++){
+//     if(nodes[i].name === nameString.name){
+//       return false
+//     }
+//   }
+//   for(let j = 0; j < links.length; j++){
+//     let s = links[j].source as any;
+//     let t = links[j].target as any;
+//     if(s.index === linked.source && t.index === linked.target){
+//       return false
+//     }
+//   }
+//   return true
+// }
 
 
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
   const theme = useTheme();
+
+  let nodes: {name: string}[] = []
+  let links: {source: number, target: number}[] = []
+  // get node names from datasource
+  let nodeName = data.series.map((series) => series.fields.find((field) => field.name === 'node name'));
+  let nodeLength: any = nodeName[0]?.values.length
+
+  // get links from datasource
+  let froms = data.series.map((series) => series.fields.find((field) => field.name === 'from'));
+  let fromsLength: any = froms[0]?.values.length
+  let tos = data.series.map((series) => series.fields.find((field) => field.name === 'to'));
+  let tosLength: any = tos[0]?.values.length
+  for(let i = 0; i < nodeLength; i++){
+    console.log(nodeName[0]?.values.get(i))
+    console.log(froms[0]?.values.get(i))
+    console.log(tos[0]?.values.get(i))
+  }
   
   function add (){
-    if(options.node !== ''){
-      if(options.node){
-        let myNodeDate = options.node.split(';');
-        for(let i = 0; i < myNodeDate.length; i++){
-          let n = {name: myNodeDate[i].split(',')[0]};
-          let l = {source: +myNodeDate[i].split(',')[1], target: +myNodeDate[i].split(',')[2]}
-          if(checkDuplicateName(n,l) === true){
-            nodes.push(n);
-            links.push(l);
-          }
+    if(nodeLength > 0){
+      for(let i = 0; i < nodeLength; i++){
+        let tempNode: {name: string} = {
+          name: nodeName[0]?.values.get(i)
         }
+        nodes.push(tempNode)
       }
     }
+    if( tosLength > 0){
+      for(let i = 0; i < tosLength; i++){
+        let tempLink: {source: number, target: number} = {
+          source: +froms[0]?.values.get(i),
+          target: +tos[0]?.values.get(i)
+        }
+        links.push(tempLink)
+      }
+    }
+    // if(options.node !== ''){
+    //   if(options.node){
+    //     let myNodeDate = options.node.split(';');
+    //     for(let i = 0; i < myNodeDate.length; i++){
+    //       let n = {name: myNodeDate[i].split(',')[0]};
+    //       let l = {source: +myNodeDate[i].split(',')[1], target: +myNodeDate[i].split(',')[2]}
+    //       if(checkDuplicateName(n,l) === true){
+    //         nodes.push(n);
+    //         links.push(l);
+    //       }
+    //     }
+    //   }
+    // }
 
-    if(options.link !== ''){
-      if(options.link){
-        let linkDate = options.link.split(';');
-        for(let i = 0; i < linkDate.length; i++){
-          let l2 = {source: +linkDate[i].split(',')[0], target: +linkDate[i].split(',')[1]}
-          if(checkDuplicateLink(l2) === true){
-            links.push(l2);
-          }
-        }
-      }
-    }
+    // if(options.link !== ''){
+    //   if(options.link){
+    //     let linkDate = options.link.split(';');
+    //     for(let i = 0; i < linkDate.length; i++){
+    //       let l2 = {source: +linkDate[i].split(',')[0], target: +linkDate[i].split(',')[1]}
+    //       if(checkDuplicateLink(l2) === true){
+    //         links.push(l2);
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   function updateNodes() {
@@ -76,8 +110,8 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       .selectAll('circle')
       .data(nodes)
       .join('circle')
-      .attr('cx', function(d:any){return d.x})
-      .attr('cy', function(d:any){return d.y})
+      .attr('cx', function(d: any){return d.x})
+      .attr('cy', function(d: any){return d.y})
       .attr('r', 20)
       .attr('opacity', 0.3)
       .attr('fill', theme.palette.blue80);
@@ -162,7 +196,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     updateNodes();
   }
   
-  let simulate = d3.forceSimulation(nodes as SimulationNodeDatum[]).force('charge', d3.forceManyBody().strength(-1000))
+  let simulate = d3.forceSimulation(nodes as SimulationNodeDatum[]).force('charge', d3.forceManyBody().strength(-500))
     .force('center', d3.forceCenter(width / 2, height / 2))
     .force('link', d3.forceLink().links(links))
     .on('tick', ticked);
