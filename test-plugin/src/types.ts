@@ -1,10 +1,6 @@
-type SeriesSize = 'sm' | 'md' | 'lg';
-type CircleColor = 'red' | 'green' | 'blue';
-
 // interface defining panel options type
+// Author: Maiqi, Yangzekun, Zhengyan
+// version: 1.0
 export interface SimpleOptions {
-  text: string;
-  showSeriesCount: boolean;
-  seriesCountSize: SeriesSize;
-  color: CircleColor;
+  displayDimension: string;
 }
