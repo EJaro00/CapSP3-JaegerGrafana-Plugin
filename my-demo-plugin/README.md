@@ -52,6 +52,11 @@ For more information about panels, refer to the documentation on [Panels](https:
    ```bash
    yarn add --dev @types/d3
    ```
+   
+5. Add react-force-graph-3d
+   ```bash
+   npm i react-force-graph-3d
+   ```
 
 ## Learn more
 
