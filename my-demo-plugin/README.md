@@ -58,6 +58,11 @@ For more information about panels, refer to the documentation on [Panels](https:
    npm i react-force-graph-3d
    ```
 
+6. Add three-spritetext
+   ```bash
+   npm i three-spritetext
+   ```
+
 ## Learn more
 
 - [Build a panel plugin tutorial](https://grafana.com/tutorials/build-a-panel-plugin)
