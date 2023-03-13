@@ -54,6 +54,9 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
             nodeOpacity = {1}
             linkDirectionalArrowLength = {4}
             linkDirectionalArrowRelPos = {1}
+            linkDirectionalParticles={2} 
+            linkDirectionalParticleWidth={3}
+            linkDirectionalParticleColor={()=>'rgba(51,255,51,1)'}
             nodeThreeObjectExtend = {true}
             nodeThreeObject={node => {
                 const sprite = new SpriteText(node.name);
