@@ -1,27 +1,3 @@
-## ⚠️ Deprecated!
-
-**This repository is deprecated.** <br />
-A more up-to-date version of panel plugin examples is available here: https://github.com/grafana/grafana-plugin-examples#panel-plugins
-
-**Examples:**
-- [panel-basic](https://github.com/grafana/grafana-plugin-examples/blob/main/examples/panel-basic) - demonstrates how to build a panel plugin that uses the time series graph
-- [panel-flot](https://github.com/grafana/grafana-plugin-examples/blob/main/examples/panel-flot) - demonstrates how to use the Flot plotting library in a panel plugin.
-- [panel-plotly](https://github.com/grafana/grafana-plugin-examples/blob/main/examples/panel-plotly) - demonstrates how to use the Plotly graphing library in a panel plugin.
-
----
-
-# Grafana Panel Plugin Template
-
-[![Build](https://github.com/grafana/grafana-starter-panel/workflows/CI/badge.svg)](https://github.com/grafana/grafana-starter-panel/actions?query=workflow%3A%22CI%22)
-
-This template is a starting point for building Grafana Panel Plugins in Grafana 7.0+
-
-## What is Grafana Panel Plugin?
-
-Panels are the building blocks of Grafana. They allow you to visualize data in different ways. While Grafana has several types of panels already built-in, you can also build your own panel, to add support for other visualizations.
-
-For more information about panels, refer to the documentation on [Panels](https://grafana.com/docs/grafana/latest/features/panels/panels/)
-
 ## Getting started
 
 1. Install dependencies
@@ -48,9 +24,10 @@ For more information about panels, refer to the documentation on [Panels](https:
    yarn build
    ```
 
-## Learn more
-
-- [Build a panel plugin tutorial](https://grafana.com/tutorials/build-a-panel-plugin)
-- [Grafana documentation](https://grafana.com/docs/)
-- [Grafana Tutorials](https://grafana.com/tutorials/) - Grafana Tutorials are step-by-step guides that help you make the most of Grafana
-- [Grafana UI Library](https://developers.grafana.com/ui) - UI components to help you build interfaces using Grafana Design System
+## The Renderings
+1. We offer two options on the grafana panel, users can pick 3D or 2D graph to display Train-ticket microservices
+![options](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/train-ticket-plugin/IMG/options.png)
+2. Here is 2D and 3D version graph after users picked
+![2Dv](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/train-ticket-plugin/IMG/2Dversion.png)  ![3Dv](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/train-ticket-plugin/IMG/3Dversion.png)
+3. Also, we offer click node feature. Users can click a service node and display the detail infomration of nodes
+![2D](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/train-ticket-plugin/IMG/click2D.png)  ![3D](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/train-ticket-plugin/IMG/click3D.png)
