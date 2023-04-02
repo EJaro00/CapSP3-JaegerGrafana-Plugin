@@ -29,7 +29,8 @@ We offer two options on the grafana panel, users can pick 3D or 2D graph to disp
 ![options](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/train-ticket-plugin/IMG/options.png)
 
 Here is 2D version graph after users picked
-![2Dv](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/train-ticket-plugin/IMG/2Dversion.png) 
+![2Dv](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/train-ticket-plugin/IMG/2Dversion.png)
+
 Here is 3D version graph after users picked
 ![3Dv](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/train-ticket-plugin/IMG/3Dversion.png)
 
