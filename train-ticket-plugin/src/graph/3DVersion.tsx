@@ -18,31 +18,29 @@ function nodeObject(node : any){
     return sprite;
 }
 
-const graph: React.FC<Props> = ({data, width, height}) =>{
-    const [nodes, setNodes] = useState<any>([]); //nodes array
-    const [links, setLinks] = useState<any>([]); //links array
-    const [clickNode, setClikNode] = useState<any>(null) //set click Node state
-    
-   
+function checkEle(node : any[], name: string){
+    return node.some((item) => item.id === name)
+}
 
+const graph: React.FC<Props> = ({data, width, height}) =>{
+    const [nodes, setNodes] = useState<any>([]) // nodes array
+    const [links, setLinks] = useState<any>([]) //links array
+    const [clickNode, setClikNode] = useState<any>(null) //set click Node state
+    let serviceName = data.request?.targets[0].service
     useEffect(() => {
         function add (){
-            const index = data.series.map((series) => series.fields.find((field) => field.name === 'Index'));
-            const name = data.series.map((series) => series.fields.find((field) => field.name === 'Name'));
-            const source = data.series.map((series) => series.fields.find((field) => field.name === 'Source'));
-            let array = index[0]?.values
+            const service = data.series.map((series) => series.fields.find((field) => field.name === 'traceName'));
+            const size = service[0]?.values.length as number
             const newNodes = [] as any;
             const newLinks = [] as any;
-            for(let i = 0; i < (array?.length as number) ; i++){
-              let p = (array?.get(i) as number) 
-              let n = name[0]?.values.get(i)
-              let s = source[0]?.values.get(i)
-              if(p !== null && n !== null){
-                newNodes.push({'id': p, 'name': n})
-                if(i > 0){
-                    newLinks.push({'source': s, 'target': p})
+            newNodes.push({'id':serviceName, 'name':serviceName, 'type': 'mian', 'option': 'All' })
+            for(let i = 0; i < size; i++){
+                let n = service[0]?.values.get(i)
+                let name = n.split(':')
+                if(!checkEle(newNodes, name[0])){
+                    newNodes.push({'id': name[0], 'name': name[0], 'type': 'Sub', 'option': name[1]}, )
+                    newLinks.push({'source': name[0], 'target': serviceName})
                 }
-              }
             }
             setNodes(newNodes)
             setLinks(newLinks)
@@ -80,15 +78,16 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
                     position: 'absolute',
                     bottom: '45%',
                     left:'45%',
-                    width: '200px',
+                    width: '350px',
                     zIndex:1000,
-                    background: 'rgba(0,0,0,0.5)',
+                    background: 'rgba(0,0,0,0.8)',
                     padding: '30px',
                     borderRadius:'5px',
                     boxShadow:'0px 0px 10px rgba(0, 0, 0, 0.4)'
                 }}>
                     <h3>{clickNode.name}</h3>
-                    <p>ID: {clickNode.id}</p>
+                    <p>Type: {clickNode.type}</p>
+                    <p>Option: {clickNode.option}</p>
                     <button style={{
                         position:'absolute',
                         bottom:'5%',
