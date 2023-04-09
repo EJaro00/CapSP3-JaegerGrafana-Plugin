@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {PanelData} from '@grafana/data';
 import ForceGraph2d, { ForceGraphMethods } from "react-force-graph-2d";
+import { Graph } from './graphAlgorithms'
 
 type Props = {
     data: PanelData;
@@ -138,5 +139,7 @@ const graph: React.FC<Props> = ({data, width, height}) => {
             )}
         </>
     )
+
+
 }
 export default graph;

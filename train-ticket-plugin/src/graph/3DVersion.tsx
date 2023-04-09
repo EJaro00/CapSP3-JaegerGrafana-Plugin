@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {PanelData} from '@grafana/data';
 import ForceGraph3D, { ForceGraphMethods} from 'react-force-graph-3d';
 import SpriteText from 'three-spritetext';
+import { Graph } from './graphAlgorithms';
 
 type Props = {
     data: PanelData;
