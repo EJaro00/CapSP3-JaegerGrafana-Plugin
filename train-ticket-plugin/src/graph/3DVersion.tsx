@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import {PanelData} from '@grafana/data';
 import ForceGraph3D, { ForceGraphMethods} from 'react-force-graph-3d';
 import SpriteText from 'three-spritetext';
-import { Graph } from './graphAlgorithms';
 
 type Props = {
     data: PanelData;
@@ -28,6 +27,7 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
     const [links, setLinks] = useState<any>([]) //links array
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
     let serviceName = data.request?.targets[0].service
+    
     useEffect(() => {
         function add (){
             const service = data.series.map((series) => series.fields.find((field) => field.name === 'traceName'));

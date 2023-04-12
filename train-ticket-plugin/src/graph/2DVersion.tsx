@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {PanelData} from '@grafana/data';
 import ForceGraph2d, { ForceGraphMethods } from "react-force-graph-2d";
-import { Graph } from './graphAlgorithms'
 
 type Props = {
     data: PanelData;
@@ -71,7 +70,7 @@ const graph: React.FC<Props> = ({data, width, height}) => {
             const size = service[0]?.values.length as number
             const newNodes = [] as any;
             const newLinks = [] as any;
-            newNodes.push({'id':serviceName, 'name':serviceName, 'type': 'mian', 'option': 'All' })
+            newNodes.push({'id':serviceName, 'name':serviceName, 'type': 'mian', 'option': 'All',})
             for(let i = 0; i < size; i++){
                 let n = service[0]?.values.get(i)
                 let name = n.split(':')
@@ -102,6 +101,7 @@ const graph: React.FC<Props> = ({data, width, height}) => {
             linkDirectionalParticles={2}
             linkDirectionalParticleWidth={3}
             linkDirectionalParticleColor={()=>'#b0f70e'}
+            nodeAutoColorBy={''}
             linkColor={() => '#146C94'}
             nodeColor = {() => '#19A7CE'}
             nodeCanvasObject={(node, ctx, scale)=>{textOnNode(node,ctx,scale)}}
