@@ -10,7 +10,7 @@ type Props = {
 
 //Text on node(Sprite Text)
 function textOnNode(node: any, ctx: any, globalScale: any){
-    const label = node.name;
+    const label = node.id;
     const fontSize = 12 / globalScale;
     const nodeSize = 15 / globalScale;
     const x = node.x;
@@ -59,6 +59,9 @@ function checkEle(node : any[], name: string){
 }
 
 const graph: React.FC<Props> = ({data, width, height}) => {
+    // const fs = require('fs') // file system
+
+
     const [nodes, setNodes] = useState<any>([]) // nodes array
     const [links, setLinks] = useState<any>([]) //links array
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
@@ -70,7 +73,17 @@ const graph: React.FC<Props> = ({data, width, height}) => {
             const size = service[0]?.values.length as number
             const newNodes = [] as any;
             const newLinks = [] as any;
-            newNodes.push({'id':serviceName, 'name':serviceName, 'type': 'mian', 'option': 'All' })
+            newNodes.push({'id':serviceName, 'name':serviceName, 'type': 'main', 'option': 'All' })
+
+            // write log file
+            // let node = {
+            //     'id': serviceName,
+            //     'name': serviceName
+            // }
+            // let tempData = JSON.stringify(node)
+            // fs.writeFileSync('data.json', tempData)
+
+
             for(let i = 0; i < size; i++){
                 let n = service[0]?.values.get(i)
                 let name = n.split(':')
@@ -109,7 +122,7 @@ const graph: React.FC<Props> = ({data, width, height}) => {
             />
             {clickNode && (
                 <div className='node-info' style={{
-                    position: 'absolute',
+                    position: 'relative',
                     bottom: '70%',
                     left:'5%',
                     width: '350px',
@@ -121,8 +134,8 @@ const graph: React.FC<Props> = ({data, width, height}) => {
                     
                 }}>
                     <h3>{clickNode.name}</h3>
-                    <p>Type: {clickNode.type}</p>
-                    <p>Option: {clickNode.option}</p>
+                    <p>TraceID: {clickNode.TraceID}</p>
+                    <p>StartTime: {clickNode.StartTime}</p>
                         <button style={{
                             position:'absolute',
                             bottom:'5%',

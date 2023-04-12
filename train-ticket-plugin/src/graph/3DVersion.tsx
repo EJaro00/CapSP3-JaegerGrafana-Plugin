@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import {PanelData} from '@grafana/data';
 import ForceGraph3D, { ForceGraphMethods} from 'react-force-graph-3d';
 import SpriteText from 'three-spritetext';
+import myData from '../../../logfile/logging.json';
+
 
 type Props = {
     data: PanelData;
@@ -11,7 +13,7 @@ type Props = {
 
 //Text on node(Sprite Text)
 function nodeObject(node : any){
-    const sprite = new SpriteText(node.name);
+    const sprite = new SpriteText(node.id);
     sprite.color = '#000000'
     sprite.textHeight = 5
     sprite.position.y = 8
@@ -23,6 +25,8 @@ function checkEle(node : any[], name: string){
 }
 
 const graph: React.FC<Props> = ({data, width, height}) =>{
+    console.log(myData.nodes)
+    console.log(myData.links)
     const [nodes, setNodes] = useState<any>([]) // nodes array
     const [links, setLinks] = useState<any>([]) //links array
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
@@ -31,17 +35,25 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
         function add (){
             const service = data.series.map((series) => series.fields.find((field) => field.name === 'traceName'));
             const size = service[0]?.values.length as number
-            const newNodes = [] as any;
-            const newLinks = [] as any;
-            newNodes.push({'id':serviceName, 'name':serviceName, 'type': 'mian', 'option': 'All' })
-            for(let i = 0; i < size; i++){
-                let n = service[0]?.values.get(i)
-                let name = n.split(':')
-                if(!checkEle(newNodes, name[0])){
-                    newNodes.push({'id': name[0], 'name': name[0], 'type': 'Sub', 'option': name[1]}, )
-                    newLinks.push({'source': name[0], 'target': serviceName})
-                }
-            }
+            
+            const newNodes = myData.nodes
+            const newLinks = myData.links
+
+            // for(let i = 0; i < myData.nodes.length; i++){
+            //     newNodes.push({'id': myData.nodes[i].id} )
+            // }
+            // for(let i = 0; i < myData.links.lenght; i++){
+            //     newLinks.push({'source': myData.links[i].Source, 'target': myData.links[i].Target})
+            // }
+            // newNodes.push({'id':serviceName, 'name':serviceName, 'type': 'mian', 'option': 'All'})
+            // for(let i = 0; i < size; i++){
+            //     let n = service[0]?.values.get(i)
+            //     let name = n.split(':')
+            //     if(!checkEle(newNodes, name[0])){
+            //         newNodes.push({'id': name[0], 'name': name[0], 'type': 'Sub', 'option': name[1]}, )
+            //         newLinks.push({'source': name[0], 'target': serviceName})
+            //     }
+            // }
             setNodes(newNodes)
             setLinks(newLinks)
         }
@@ -85,9 +97,9 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
                     borderRadius:'5px',
                     boxShadow:'0px 0px 10px rgba(0, 0, 0, 0.4)'
                 }}>
-                    <h3>{clickNode.name}</h3>
-                    <p>Type: {clickNode.type}</p>
-                    <p>Option: {clickNode.option}</p>
+                    <h3>{clickNode.id}</h3>
+                    <p>TraceID: {clickNode.TraceID}</p>
+                    <p>StartTime: {clickNode.StartTime}</p>
                     <button style={{
                         position:'absolute',
                         bottom:'5%',
