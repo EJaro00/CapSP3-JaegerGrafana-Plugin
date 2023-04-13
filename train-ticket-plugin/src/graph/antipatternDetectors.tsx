@@ -13,8 +13,8 @@ function dfsSCC(vertices: any[], edges: any[], visited: boolean[], currentNode: 
 
   for (let i = 0; i < edges.length; i++) {
     //If the edge starts from our current node, continue DFS from the target node
-      if (edges[i]["source"] === vertices[currentNode]["name"] && !visited[vertices.findIndex(vertex => vertex["name"] === edges[i]["target"])]) {
-          dfsSCC(vertices, edges, visited, vertices.findIndex(vertex => vertex["name"] === edges[i]["target"]), stack);
+      if (edges[i].source === vertices[currentNode].name && !visited[vertices.findIndex(vertex => vertex.name === edges[i].target)]) {
+          dfsSCC(vertices, edges, visited, vertices.findIndex(vertex => vertex.name === edges[i].target), stack);
       }
   }
 }
