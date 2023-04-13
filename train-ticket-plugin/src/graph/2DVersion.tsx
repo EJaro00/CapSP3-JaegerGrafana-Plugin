@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import {PanelData} from '@grafana/data';
+import React, {useRef, useState } from "react";
 import ForceGraph2d, { ForceGraphMethods } from "react-force-graph-2d";
-
+import myData from '../../../logfile/logging.json';
 type Props = {
-    data: PanelData;
     width: number;
     height: number;
 }
@@ -31,83 +29,43 @@ function textOnNode(node: any, ctx: any, globalScale: any){
 //
 function linkfix(link: any, ctx: any, scale: any){
     const { source, target } = link;
-      const nodeSize = 15 / scale;
+    const nodeSize = 15 / scale;
 
-      // calculate length and angle
-      const dx = target.x - source.x;
-      const dy = target.y - source.y;
-      const angle = Math.atan2(dy, dx);
+    // calculate length and angle
+    const dx = target.x - source.x;
+    const dy = target.y - source.y;
+    const angle = Math.atan2(dy, dx);
 
-      //computing coordinate
-      const sx = source.x + (nodeSize + 5) * Math.cos(angle);
-      const sy = source.y + (nodeSize + 5) * Math.sin(angle);
-      const tx = target.x - (nodeSize + 5) * Math.cos(angle);
-      const ty = target.y - (nodeSize + 5) * Math.sin(angle);
+    //computing coordinate
+    const sx = source.x + (nodeSize + 5) * Math.cos(angle);
+    const sy = source.y + (nodeSize + 5) * Math.sin(angle);
+    const tx = target.x - (nodeSize + 5) * Math.cos(angle);
+    const ty = target.y - (nodeSize + 5) * Math.sin(angle);
 
-      //draw line
-      ctx.beginPath();
-      ctx.moveTo(sx, sy);
-      ctx.lineTo(tx, ty);
-      ctx.strokeStyle = "#146C94";
-      ctx.lineWidth = 1;
-      ctx.stroke();
+    //draw line
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(tx, ty);
+    ctx.strokeStyle = "#146C94";
+    ctx.lineWidth = 1;
+    ctx.stroke();
 
 }
 
-function checkEle(node : any[], name: string){
-    return node.some((item) => item.id === name)
-}
 
-const graph: React.FC<Props> = ({data, width, height}) => {
-    // const fs = require('fs') // file system
-
-
-    const [nodes, setNodes] = useState<any>([]) // nodes array
-    const [links, setLinks] = useState<any>([]) //links array
+const graph: React.FC<Props> = ({width, height}) => {
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
-    let serviceName = data.request?.targets[0].service //get service name
-
-    useEffect(() => {
-        function add (){
-            const service = data.series.map((series) => series.fields.find((field) => field.name === 'traceName'));
-            const size = service[0]?.values.length as number
-            const newNodes = [] as any;
-            const newLinks = [] as any;
-            newNodes.push({'id':serviceName, 'name':serviceName, 'type': 'main', 'option': 'All' })
-
-            // write log file
-            // let node = {
-            //     'id': serviceName,
-            //     'name': serviceName
-            // }
-            // let tempData = JSON.stringify(node)
-            // fs.writeFileSync('data.json', tempData)
-
-
-            for(let i = 0; i < size; i++){
-                let n = service[0]?.values.get(i)
-                let name = n.split(':')
-                if(!checkEle(newNodes, name[0])){
-                    newNodes.push({'id': name[0], 'name': name[0], 'type': 'Sub', 'option': name[1]}, )
-                    newLinks.push({'source': name[0], 'target': serviceName})
-                }
-            }
-            setNodes(newNodes)
-            setLinks(newLinks)
-        }
-        add()
-    },[data])
 
     function dispalyNode(node:any){
         setClikNode(node);
     }
 
-    const reference = useRef<ForceGraphMethods>();
+    const reference = useRef<ForceGraphMethods>(); 
     return(
         <>
             <ForceGraph2d 
             ref={reference}
-            graphData={{nodes, links}}
+            graphData={myData}
             backgroundColor = "#BDC3C7"
             width={width}
             height={height}
@@ -119,10 +77,11 @@ const graph: React.FC<Props> = ({data, width, height}) => {
             nodeCanvasObject={(node, ctx, scale)=>{textOnNode(node,ctx,scale)}}
             linkCanvasObject={(link, ctx, scale)=>{linkfix(link,ctx,scale)}}
             onNodeClick = {dispalyNode}
+            warmupTicks={100}
             />
             {clickNode && (
                 <div className='node-info' style={{
-                    position: 'relative',
+                    position: 'absolute',
                     bottom: '70%',
                     left:'5%',
                     width: '350px',
@@ -133,7 +92,7 @@ const graph: React.FC<Props> = ({data, width, height}) => {
                     boxShadow:'0px 0px 10px rgba(0, 0, 0, 0.4)'
                     
                 }}>
-                    <h3>{clickNode.name}</h3>
+                    <h3>{clickNode.id}</h3>
                     <p>TraceID: {clickNode.TraceID}</p>
                     <p>StartTime: {clickNode.StartTime}</p>
                         <button style={{

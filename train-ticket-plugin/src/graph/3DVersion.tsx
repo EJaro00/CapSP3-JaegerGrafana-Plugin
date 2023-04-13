@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useRef, useState } from 'react';
 import {PanelData} from '@grafana/data';
 import ForceGraph3D, { ForceGraphMethods} from 'react-force-graph-3d';
 import SpriteText from 'three-spritetext';
@@ -20,49 +20,9 @@ function nodeObject(node : any){
     return sprite;
 }
 
-function checkEle(node : any[], name: string){
-    return node.some((item) => item.id === name)
-}
-
-const graph: React.FC<Props> = ({data, width, height}) =>{
-    console.log(myData.nodes)
-    console.log(myData.links)
-    const [nodes, setNodes] = useState<any>([]) // nodes array
-    const [links, setLinks] = useState<any>([]) //links array
+const graph: React.FC<Props> = ({width, height}) =>{
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
-    let serviceName = data.request?.targets[0].service
-    useEffect(() => {
-        function add (){
-            const service = data.series.map((series) => series.fields.find((field) => field.name === 'traceName'));
-            const size = service[0]?.values.length as number
-            
-            const newNodes = myData.nodes
-            const newLinks = myData.links
-
-            // for(let i = 0; i < myData.nodes.length; i++){
-            //     newNodes.push({'id': myData.nodes[i].id} )
-            // }
-            // for(let i = 0; i < myData.links.lenght; i++){
-            //     newLinks.push({'source': myData.links[i].Source, 'target': myData.links[i].Target})
-            // }
-            // newNodes.push({'id':serviceName, 'name':serviceName, 'type': 'mian', 'option': 'All'})
-            // for(let i = 0; i < size; i++){
-            //     let n = service[0]?.values.get(i)
-            //     let name = n.split(':')
-            //     if(!checkEle(newNodes, name[0])){
-            //         newNodes.push({'id': name[0], 'name': name[0], 'type': 'Sub', 'option': name[1]}, )
-            //         newLinks.push({'source': name[0], 'target': serviceName})
-            //     }
-            // }
-            setNodes(newNodes)
-            setLinks(newLinks)
-        }
-        add()
-    },[data])
-    
-
     const reference = useRef<ForceGraphMethods>();
-
     function dispalyNode(node:any){
         setClikNode(node);
     }
@@ -70,7 +30,7 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
         <>
             <ForceGraph3D
             ref={reference}
-            graphData={{nodes,links}}
+            graphData={myData}
             backgroundColor = "#BDC3C7"
             width={width}
             height={height}
@@ -118,3 +78,5 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
 }
 
 export default graph;
+
+
