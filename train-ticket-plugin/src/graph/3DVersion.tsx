@@ -1,8 +1,10 @@
-import React, {useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {PanelData} from '@grafana/data';
 import ForceGraph3D, { ForceGraphMethods} from 'react-force-graph-3d';
 import SpriteText from 'three-spritetext';
 import myData from '../../../logfile/logging.json';
+
+import * as antidetector from './antipatternDetectors';
 
 
 type Props = {
@@ -20,9 +22,45 @@ function nodeObject(node : any){
     return sprite;
 }
 
-const graph: React.FC<Props> = ({width, height}) =>{
+const graph: React.FC<Props> = ({data, width, height}) =>{
+
+    const cycles = antidetector.findCycles(myData.nodes, myData.links)
+
+    const [nodes, setNodes] = useState<any>([]) // nodes array
+    const [links, setLinks] = useState<any>([]) //links array
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
+
+    console.log(cycles)
+    console.log(myData.nodes)
+    console.log(myData.links)
+
+    useEffect(() => {
+        function add (){
+
+            const newNodes = [] as any;
+            const newLinks = [] as any;
+
+            for(let i = 0; i < myData.nodes.length; i++){
+                if(cycles[i]){
+                    newNodes.push({'id': myData.nodes[i].id, 'TraceID': myData.nodes[i].TraceID, 'StartTime': myData.nodes[i].StartTime, 'color': '#19A7CE'})
+                }
+                else{
+                    newNodes.push({'id': myData.nodes[i].id, 'TraceID': myData.nodes[i].TraceID, 'StartTime': myData.nodes[i].StartTime, 'color': 'Red'})
+                }
+            }
+
+            for(let i = 0; i < myData.links.length; i++){
+                newLinks.push({'source': myData.links[i].source, 'target': myData.links[i].target})
+            }
+
+            setNodes(newNodes)
+            setLinks(newLinks)
+        }
+        add()
+    },[data])
+    
     const reference = useRef<ForceGraphMethods>();
+
     function dispalyNode(node:any){
         setClikNode(node);
     }
@@ -30,7 +68,7 @@ const graph: React.FC<Props> = ({width, height}) =>{
         <>
             <ForceGraph3D
             ref={reference}
-            graphData={myData}
+            graphData={{nodes,links}}
             backgroundColor = "#BDC3C7"
             width={width}
             height={height}
@@ -40,7 +78,8 @@ const graph: React.FC<Props> = ({width, height}) =>{
             linkDirectionalParticleColor={()=>'#b0f70e'}
             linkColor={() => '#146C94'}
             linkWidth = {3}
-            nodeColor = {() => '#19A7CE'}
+            //nodeColor = {() => nodes.color}
+            nodeAutoColorBy = {d => nodes.color%GROUPS}
             nodeThreeObjectExtend={true}
             nodeThreeObject={(node:any) => nodeObject(node)}
             onNodeClick={dispalyNode}
@@ -78,5 +117,3 @@ const graph: React.FC<Props> = ({width, height}) =>{
 }
 
 export default graph;
-
-
