@@ -13,18 +13,18 @@ function dfsSCC(vertices: any[], edges: any[], visited: boolean[], currentNode: 
 
   for (let i = 0; i < edges.length; i++) {
     //If the edge starts from our current node, continue DFS from the target node
-      if (edges[i].source === vertices[currentNode].name && !visited[vertices.findIndex(vertex => vertex.name === edges[i].target)]) {
-          dfsSCC(vertices, edges, visited, vertices.findIndex(vertex => vertex.name === edges[i].target), stack);
+      if (edges[i].source === vertices[currentNode].id && !visited[vertices.findIndex(vertex => vertex.id === edges[i].target)]) {
+          dfsSCC(vertices, edges, visited, vertices.findIndex(vertex => vertex.id === edges[i].target), stack);
       }
   }
 }
 
 /**
-* Finds all strongly connected components (SCCs) in a graph using DFS.
-* @param vertices Array of all vertices in our graph
-* @param edges Array of all vertex-to-vertex edges in our graph
-* @returns An array of arrays, each inner array containing the vertices that form a strongly connected component
-*/
+ * Finds all strongly connected components (SCCs) in a graph using DFS.
+ * @param vertices Array of all vertices in our graph
+ * @param edges Array of all vertex-to-vertex edges in our graph
+ * @returns An array of arrays, each inner array containing the vertices that form a strongly connected component
+ */
 function findSCCs(vertices: any[], edges: any[]): number[][] {
   const visited: boolean[] = new Array(vertices.length).fill(false);
   const stack: any[] = [];
@@ -55,7 +55,7 @@ function findSCCs(vertices: any[], edges: any[]): number[][] {
  * @returns The number of edges pointing towards this node (indegree)
  */
 function getDegreeIn(node: any, edges: any[]): number {
-  let retVal: number = 0;
+  let retVal = 0;
 
   retVal = edges.filter(link => link.target === node.name).length;
 
@@ -69,7 +69,7 @@ function getDegreeIn(node: any, edges: any[]): number {
  * @returns The number of edges pointing away from this node (outdegree)
  */
 function getDegreeOut(node: any, edges: any[]): number {
-  let retVal: number = 0;
+  let retVal = 0;
 
   retVal = edges.filter(link => link.source === node.name).length;
 
@@ -86,8 +86,8 @@ export function findCycles(vertices: any[], edges: any[]): boolean[]{
 
   const retVal: boolean[] = new Array(vertices.length).fill(false);
   let sccs: number[][] = findSCCs(vertices, edges);
-  let index : number = 0;
-
+  let index = 0;
+  console.log(sccs)
   for(let i = 0; i < sccs.length; i++){
       //If the SCC contains more than one node, every node in the SCC is part of a cycle.
       if(sccs[i].length > 1){

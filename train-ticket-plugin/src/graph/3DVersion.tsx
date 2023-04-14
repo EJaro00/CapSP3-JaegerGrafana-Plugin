@@ -10,8 +10,8 @@ type Props = {
 }
 
 //Text on node(Sprite Text)
-function nodeObject(node : any){
-    const sprite = new SpriteText(node.name);
+function nodeObject(node: any){
+    const sprite = new SpriteText(node.id);
     sprite.color = '#000000'
     sprite.textHeight = 5
     sprite.position.y = 8
@@ -52,7 +52,7 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
 
     const reference = useRef<ForceGraphMethods>();
 
-    function dispalyNode(node:any){
+    function dispalyNode(node: any){
         setClikNode(node);
     }
     return (
@@ -71,7 +71,7 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
             linkWidth = {3}
             nodeColor = {() => '#19A7CE'}
             nodeThreeObjectExtend={true}
-            nodeThreeObject={(node:any) => nodeObject(node)}
+            nodeThreeObject={(node: any) => nodeObject(node)}
             onNodeClick={dispalyNode}
             />
             {clickNode && (

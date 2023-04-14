@@ -85,7 +85,7 @@ const graph: React.FC<Props> = ({data, width, height}) => {
         add()
     },[data])
 
-    function dispalyNode(node:any){
+    function dispalyNode(node: any){
         setClikNode(node);
     }
 
