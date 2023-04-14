@@ -1,4 +1,5 @@
 
+
 /**
  * Returns the indegree of a node in a graph
  * @param node The node we are investigating
@@ -7,6 +8,7 @@
  */
 function getDegreeIn(node: any, edges: any[]): number {
   let retVal = 0;
+
 
   retVal = edges.filter(link => link.target === node.name).length;
 
@@ -27,66 +29,6 @@ function getDegreeOut(node: any, edges: any[]): number {
   return retVal;
 }
 
-/**
- * Finds one strongly connected component (SCC) in a graph using DFS.
- * @param vertices Array of all vertices in our graph
- * @param edges Array of all vertex-to-vertex edges in our graph
- * @param visited Array of booleans telling us whether the corresponding vertex has been visited
- * @param currentVertex The current node we're visiting for this iteration of dfs
- * @param stack Stack used to keep track of nodes in the current SCC
- * @param lowest Array that keeps track of the lowest node reachable from each node
- * @param path Array that keeps track of the current path in the DFS tree
- * @param cycles Array that keeps track of whether each node is part of a cycle
- */
-function dfsSCC(vertices: any[], edges: any[], visited: boolean[], currentVertex: number, stack: any[], lowest: number[], path: boolean[], cycles: boolean[]): void {
-  visited[currentVertex] = true;
-  stack.push(currentVertex);
-  lowest[currentVertex] = currentVertex;
-  path[currentVertex] = true;
-
-  for (let i = 0; i < edges.length; i++) {
-    if (edges[i].source === vertices[currentVertex].id) {
-      const targetNodeIndex = vertices.findIndex(vertex => vertex.id === edges[i].target);
-      if (!visited[targetNodeIndex]) {
-        dfsSCC(vertices, edges, visited, targetNodeIndex, stack, lowest, path, cycles);
-      }
-      if (path[targetNodeIndex]) {
-        lowest[currentVertex] = Math.min(lowest[currentVertex], lowest[targetNodeIndex]);
-      }
-    }
-  }
-
-  if (lowest[currentVertex] === currentVertex) {
-    let node;
-    do {
-      node = stack.pop();
-      path[node] = false;
-      cycles[node] = true;
-    } while (node !== currentVertex);
-  }
-}
-
-/**
- * Finds all nodes that make up cycles in a graph
- * @param vertices Array of all vertices in our graph
- * @param edges Array of all vertex-to-vertex edges in our graph
- * @returns An array containing a boolean for each vertex - true if it's part of a cycle, false otherwise
- */
-export function findCycles(vertices: any[], edges: any[]): boolean[]{
-  const visited: boolean[] = new Array(vertices.length).fill(false);
-  const stack: any[] = [];
-  const lowest: number[] = new Array(vertices.length).fill(Infinity);
-  const path: boolean[] = new Array(vertices.length).fill(false);
-  const cycles: boolean[] = new Array(vertices.length).fill(false);
-
-  for (let i = 0; i < vertices.length; i++) {
-    if (!visited[i]) {
-      dfsSCC(vertices, edges, visited, i, stack, lowest, path, cycles);
-    }
-  }
-
-  return cycles;
-}
 
 
 /**
@@ -94,15 +36,15 @@ export function findCycles(vertices: any[], edges: any[]): boolean[]{
  * @param vertices Array of all vertices in our graph
  * @param edges Array of all vertex-to-vertex edges in our graph
  * @param threshold The user-defined threshold for how many edges create a bottleneck
- * @returns An array containing a boolean for each vertex - true if it's a bottleneck, false otherwise
+ * @returns An array containing a set of all vertex indices that correspond to a bottleneck vertex
  */
-export function findBottlenecks(vertices: any[], edges: any[], threshold: number): boolean[] {
+export function findBottlenecks(vertices: any[], edges: any[], threshold: number): Set<number> {
 
-  const retVal: boolean[] = new Array(vertices.length).fill(false);
+  let retVal = new Set<number>;
 
   for(let i = 0; i < vertices.length; i++){
     if(getDegreeIn(vertices[i], edges) > threshold){
-      retVal[i] = true;
+      retVal.add(i);
     }
   }
 
@@ -115,17 +57,59 @@ export function findBottlenecks(vertices: any[], edges: any[], threshold: number
  * @param vertices Array of all vertices in our graph
  * @param edges Array of all vertex-to-vertex edges in our graph
  * @param threshold The user-defined threshold for how many edges create a nanoservice
- * @returns An array containing a boolean for each vertex - true if it's a nanoservice, false otherwise
+ * @returns An array containing a set of all vertex indices that correspond to a nanoservice vertex
  */
-export function findNanoservices(vertices: any[], edges: any[], threshold: number): boolean[] {
+export function findNanoservices(vertices: any[], edges: any[], threshold: number): Set<number>{
   
-  const retVal: boolean[] = new Array(vertices.length).fill(false);
+  let retVal = new Set<number>;
 
   for(let i = 0; i < vertices.length; i++){
     if(getDegreeOut(vertices[i], edges) > threshold){
-      retVal[i] = true;
+      retVal.add(i);
     }
   }
 
   return retVal;
+}
+
+/**
+ * Finds all nodes that make up cycles in a graph
+ * @param vertices Array of all vertices in our graph
+ * @param edges Array of all vertex-to-vertex edges in our graph
+ * @returns A set containing the indices of all vertices that make up a cycle
+ */
+export function findCycles(vertices: any[], edges: any[]): Set<number> {
+  const visited: boolean[] = new Array(vertices.length).fill(false);
+  const inStack: boolean[] = new Array(vertices.length).fill(false);
+  let result = new Set<number>;
+
+  function dfs(v: string): void {
+    visited[vertices.indexOf(v)] = true;
+    inStack[vertices.indexOf(v)] = true;
+
+    for (const e of edges) {
+      if (e.source === v) {
+        const u = e.target;
+        const index = vertices.findIndex(vertex => vertex.id === u);
+
+        if (!visited[index]) {
+          dfs(u);
+        } else if (inStack[index]) {
+          for (let i = vertices.indexOf(v); i <= index; i++) {
+            result.add(i);
+          }
+        }
+      }
+    }
+
+    inStack[vertices.indexOf(v)] = false;
+  }
+
+  for (const v of vertices) {
+    if (!visited[vertices.indexOf(v.id)]) {
+      dfs(v.id);
+    }
+  }
+
+  return result;
 }
