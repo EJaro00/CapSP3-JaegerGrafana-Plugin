@@ -18,7 +18,7 @@ function nodeObject(node: any){
     return sprite;
 }
 
-function checkEle(node : any[], name: string){
+function checkEle(node: any[], name: string){
     return node.some((item) => item.id === name)
 }
 
