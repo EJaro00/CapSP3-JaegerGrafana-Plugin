@@ -32,37 +32,37 @@ function getDegreeOut(node: any, edges: any[]): number {
  * @param vertices Array of all vertices in our graph
  * @param edges Array of all vertex-to-vertex edges in our graph
  * @param visited Array of booleans telling us whether the corresponding vertex has been visited
- * @param currentNode The current node we're visiting for this iteration of dfs
+ * @param currentVertex The current node we're visiting for this iteration of dfs
  * @param stack Stack used to keep track of nodes in the current SCC
  * @param lowest Array that keeps track of the lowest node reachable from each node
  * @param path Array that keeps track of the current path in the DFS tree
  * @param cycles Array that keeps track of whether each node is part of a cycle
  */
-function dfsSCC(vertices: any[], edges: any[], visited: boolean[], currentNode: number, stack: any[], lowest: number[], path: boolean[], cycles: boolean[]): void {
-  visited[currentNode] = true;
-  stack.push(currentNode);
-  lowest[currentNode] = currentNode;
-  path[currentNode] = true;
+function dfsSCC(vertices: any[], edges: any[], visited: boolean[], currentVertex: number, stack: any[], lowest: number[], path: boolean[], cycles: boolean[]): void {
+  visited[currentVertex] = true;
+  stack.push(currentVertex);
+  lowest[currentVertex] = currentVertex;
+  path[currentVertex] = true;
 
   for (let i = 0; i < edges.length; i++) {
-    if (edges[i].source === vertices[currentNode].id) {
+    if (edges[i].source === vertices[currentVertex].id) {
       const targetNodeIndex = vertices.findIndex(vertex => vertex.id === edges[i].target);
       if (!visited[targetNodeIndex]) {
         dfsSCC(vertices, edges, visited, targetNodeIndex, stack, lowest, path, cycles);
       }
       if (path[targetNodeIndex]) {
-        lowest[currentNode] = Math.min(lowest[currentNode], lowest[targetNodeIndex]);
+        lowest[currentVertex] = Math.min(lowest[currentVertex], lowest[targetNodeIndex]);
       }
     }
   }
 
-  if (lowest[currentNode] === currentNode) {
+  if (lowest[currentVertex] === currentVertex) {
     let node;
     do {
       node = stack.pop();
       path[node] = false;
       cycles[node] = true;
-    } while (node !== currentNode);
+    } while (node !== currentVertex);
   }
 }
 
