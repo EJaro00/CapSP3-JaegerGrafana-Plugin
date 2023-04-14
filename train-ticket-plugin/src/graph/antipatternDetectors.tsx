@@ -1,4 +1,11 @@
+interface Vertex {
+  id: string;
+}
 
+interface Edge {
+  source: string;
+  target: string;
+}
 
 /**
  * Returns the indegree of a node in a graph
@@ -78,35 +85,41 @@ export function findNanoservices(vertices: any[], edges: any[], threshold: numbe
  * @param edges Array of all vertex-to-vertex edges in our graph
  * @returns A set containing the indices of all vertices that make up a cycle
  */
-export function findCycles(vertices: string[], edges: any[]): Set<number> {
+export function findCycles(vertices: Vertex[], edges: Edge[]): Set<number> {
   const visited: boolean[] = new Array(vertices.length).fill(false);
   const inStack: boolean[] = new Array(vertices.length).fill(false);
-  const result: Set<number> = new Set<number>;
-  const stack: string[] = [];
+  const stack: Vertex[] = [];
+  const result: Set<number> = new Set();
 
   for (const v of vertices) {
-    if (!visited[vertices.indexOf(v)]) {
+    const index = vertices.indexOf(v);
+
+    if (!visited[index]) {
       stack.push(v);
 
       while (stack.length > 0) {
         const curr = stack[stack.length - 1];
-        const index = vertices.indexOf(curr);
-        visited[index] = true;
-        inStack[index] = true;
+        const currIndex = vertices.indexOf(curr);
+        visited[currIndex] = true;
+        inStack[currIndex] = true;
 
         let found = false;
 
         for (const e of edges) {
-          if (e.source === curr) {
-            const u = e.target;
-            const uIndex = vertices.indexOf(u);
+          if (e.source === curr.id) {
+            const u = vertices.find((v) => v.id === e.target);
 
-            if (!visited[uIndex]) {
+            if (u === undefined) {
+              console.error(`Target vertex \${e.target} not found in vertices array`);
+              continue;
+            }
+
+            if (!visited[vertices.indexOf(u)]) {
               stack.push(u);
               found = true;
               break;
-            } else if (inStack[uIndex]) {
-              for (let i = vertices.indexOf(curr); i <= uIndex; i++) {
+            } else if (inStack[vertices.indexOf(u)]) {
+              for (let i = currIndex; i <= vertices.indexOf(u); i++) {
                 result.add(i);
               }
 
@@ -118,7 +131,7 @@ export function findCycles(vertices: string[], edges: any[]): Set<number> {
 
         if (!found) {
           stack.pop();
-          inStack[index] = false;
+          inStack[currIndex] = false;
         }
       }
     }

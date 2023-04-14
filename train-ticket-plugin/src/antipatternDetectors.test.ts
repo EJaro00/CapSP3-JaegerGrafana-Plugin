@@ -1,8 +1,15 @@
-import { findCycles } from "./graph/antipatternDetectors";
+import { findCycles } from "graph/antipatternDetectors";
+
 
 describe("findCycles", () => {
   it("should find all cycles in a graph", () => {
-    const vertices = ["A", "B", "C", "D", "E"];
+    const vertices = [
+      { id: "A" },
+      { id: "B" },
+      { id: "C" },
+      { id: "D" },
+      { id: "E" },
+    ];
     const edges = [
       { source: "A", target: "B" },
       { source: "B", target: "C" },
@@ -16,7 +23,13 @@ describe("findCycles", () => {
   });
 
   it("should handle disconnected graphs", () => {
-    const vertices = ["A", "B", "C", "D", "E"];
+    const vertices = [
+      { id: "A" },
+      { id: "B" },
+      { id: "C" },
+      { id: "D" },
+      { id: "E" },
+    ];
     const edges = [
       { source: "A", target: "B" },
       { source: "B", target: "C" },
@@ -28,7 +41,13 @@ describe("findCycles", () => {
   });
 
   it("should handle graphs with no cycles", () => {
-    const vertices = ["A", "B", "C", "D", "E"];
+    const vertices = [
+      { id: "A" },
+      { id: "B" },
+      { id: "C" },
+      { id: "D" },
+      { id: "E" },
+    ];
     const edges = [
       { source: "A", target: "B" },
       { source: "B", target: "C" },
@@ -41,7 +60,15 @@ describe("findCycles", () => {
   });
 
   it("should find two separate cycles", () => {
-    const vertices = ["A", "B", "C", "D", "E", "F", "G"];
+    const vertices = [
+      { id: "A" },
+      { id: "B" },
+      { id: "C" },
+      { id: "D" },
+      { id: "E" },
+      { id: "F" },
+      { id: "G" },
+    ];
     const edges = [
       { source: "A", target: "B" },
       { source: "B", target: "C" },
@@ -55,5 +82,4 @@ describe("findCycles", () => {
     const result = findCycles(vertices, edges);
     expect(result).toEqual(new Set([1, 2, 3, 4, 6, 7]));
   });
-  
 });
