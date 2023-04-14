@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import {PanelData} from '@grafana/data';
 import ForceGraph3D, { ForceGraphMethods} from 'react-force-graph-3d';
 import SpriteText from 'three-spritetext';
+import myData from '../../../logfile/logging.json';
+
+import * as antidetector from './antipatternDetectors';
+
 
 type Props = {
     data: PanelData;
@@ -10,7 +14,7 @@ type Props = {
 }
 
 //Text on node(Sprite Text)
-function nodeObject(node: any){
+function nodeObject(node : any){
     const sprite = new SpriteText(node.id);
     sprite.color = '#000000'
     sprite.textHeight = 5
@@ -18,38 +22,43 @@ function nodeObject(node: any){
     return sprite;
 }
 
-function checkEle(node: any[], name: string){
-    return node.some((item) => item.id === name)
-}
-
 const graph: React.FC<Props> = ({data, width, height}) =>{
+
+    const cycles = antidetector.findCycles(myData.nodes, myData.links)
+
     const [nodes, setNodes] = useState<any>([]) // nodes array
     const [links, setLinks] = useState<any>([]) //links array
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
-    let serviceName = data.request?.targets[0].service
-    
+
+    console.log(cycles)
+    console.log(myData.nodes)
+    console.log(myData.links)
+
     useEffect(() => {
         function add (){
-            const service = data.series.map((series) => series.fields.find((field) => field.name === 'traceName'));
-            const size = service[0]?.values.length as number
+
             const newNodes = [] as any;
             const newLinks = [] as any;
-            newNodes.push({'id':serviceName, 'name':serviceName, 'type': 'mian', 'option': 'All' })
-            for(let i = 0; i < size; i++){
-                let n = service[0]?.values.get(i)
-                let name = n.split(':')
-                if(!checkEle(newNodes, name[0])){
-                    newNodes.push({'id': name[0], 'name': name[0], 'type': 'Sub', 'option': name[1]}, )
-                    newLinks.push({'source': name[0], 'target': serviceName})
+
+            for(let i = 0; i < myData.nodes.length; i++){
+                if(cycles[i]){
+                    newNodes.push({'id': myData.nodes[i].id, 'TraceID': myData.nodes[i].TraceID, 'StartTime': myData.nodes[i].StartTime, 'color': '#19A7CE'})
+                }
+                else{
+                    newNodes.push({'id': myData.nodes[i].id, 'TraceID': myData.nodes[i].TraceID, 'StartTime': myData.nodes[i].StartTime, 'color': 'Red'})
                 }
             }
+
+            for(let i = 0; i < myData.links.length; i++){
+                newLinks.push({'source': myData.links[i].source, 'target': myData.links[i].target})
+            }
+
             setNodes(newNodes)
             setLinks(newLinks)
         }
         add()
     },[data])
     
-
     const reference = useRef<ForceGraphMethods>();
 
     function dispalyNode(node: any){
@@ -69,7 +78,8 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
             linkDirectionalParticleColor={()=>'#b0f70e'}
             linkColor={() => '#146C94'}
             linkWidth = {3}
-            nodeColor = {() => '#19A7CE'}
+            //nodeColor = {() => nodes.color}
+            nodeAutoColorBy = {d => nodes.color%GROUPS}
             nodeThreeObjectExtend={true}
             nodeThreeObject={(node: any) => nodeObject(node)}
             onNodeClick={dispalyNode}
@@ -86,9 +96,9 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
                     borderRadius:'5px',
                     boxShadow:'0px 0px 10px rgba(0, 0, 0, 0.4)'
                 }}>
-                    <h3>{clickNode.name}</h3>
-                    <p>Type: {clickNode.type}</p>
-                    <p>Option: {clickNode.option}</p>
+                    <h3>{clickNode.id}</h3>
+                    <p>TraceID: {clickNode.TraceID}</p>
+                    <p>StartTime: {clickNode.StartTime}</p>
                     <button style={{
                         position:'absolute',
                         bottom:'5%',

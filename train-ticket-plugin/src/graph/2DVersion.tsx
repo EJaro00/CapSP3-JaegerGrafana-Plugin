@@ -1,16 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import {PanelData} from '@grafana/data';
+import React, {useRef, useState } from "react";
 import ForceGraph2d, { ForceGraphMethods } from "react-force-graph-2d";
-
+import myData from '../../../logfile/logging.json';
 type Props = {
-    data: PanelData;
     width: number;
     height: number;
 }
 
 //Text on node(Sprite Text)
 function textOnNode(node: any, ctx: any, globalScale: any){
-    const label = node.name;
+    const label = node.id;
     const fontSize = 12 / globalScale;
     const nodeSize = 15 / globalScale;
     const x = node.x;
@@ -31,26 +29,26 @@ function textOnNode(node: any, ctx: any, globalScale: any){
 //
 function linkfix(link: any, ctx: any, scale: any){
     const { source, target } = link;
-      const nodeSize = 15 / scale;
+    const nodeSize = 15 / scale;
 
-      // calculate length and angle
-      const dx = target.x - source.x;
-      const dy = target.y - source.y;
-      const angle = Math.atan2(dy, dx);
+    // calculate length and angle
+    const dx = target.x - source.x;
+    const dy = target.y - source.y;
+    const angle = Math.atan2(dy, dx);
 
-      //computing coordinate
-      const sx = source.x + (nodeSize + 5) * Math.cos(angle);
-      const sy = source.y + (nodeSize + 5) * Math.sin(angle);
-      const tx = target.x - (nodeSize + 5) * Math.cos(angle);
-      const ty = target.y - (nodeSize + 5) * Math.sin(angle);
+    //computing coordinate
+    const sx = source.x + (nodeSize + 5) * Math.cos(angle);
+    const sy = source.y + (nodeSize + 5) * Math.sin(angle);
+    const tx = target.x - (nodeSize + 5) * Math.cos(angle);
+    const ty = target.y - (nodeSize + 5) * Math.sin(angle);
 
-      //draw line
-      ctx.beginPath();
-      ctx.moveTo(sx, sy);
-      ctx.lineTo(tx, ty);
-      ctx.strokeStyle = "#146C94";
-      ctx.lineWidth = 1;
-      ctx.stroke();
+    //draw line
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(tx, ty);
+    ctx.strokeStyle = "#146C94";
+    ctx.lineWidth = 1;
+    ctx.stroke();
 
 }
 
@@ -58,9 +56,7 @@ function checkEle(node: any[], name: string){
     return node.some((item) => item.id === name)
 }
 
-const graph: React.FC<Props> = ({data, width, height}) => {
-    const [nodes, setNodes] = useState<any>([]) // nodes array
-    const [links, setLinks] = useState<any>([]) //links array
+const graph: React.FC<Props> = ({width, height}) => {
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
     let serviceName = data.request?.targets[0].service //get service name
 
@@ -89,12 +85,12 @@ const graph: React.FC<Props> = ({data, width, height}) => {
         setClikNode(node);
     }
 
-    const reference = useRef<ForceGraphMethods>();
+    const reference = useRef<ForceGraphMethods>(); 
     return(
         <>
             <ForceGraph2d 
             ref={reference}
-            graphData={{nodes, links}}
+            graphData={myData}
             backgroundColor = "#BDC3C7"
             width={width}
             height={height}
@@ -107,6 +103,7 @@ const graph: React.FC<Props> = ({data, width, height}) => {
             nodeCanvasObject={(node, ctx, scale)=>{textOnNode(node,ctx,scale)}}
             linkCanvasObject={(link, ctx, scale)=>{linkfix(link,ctx,scale)}}
             onNodeClick = {dispalyNode}
+            warmupTicks={100}
             />
             {clickNode && (
                 <div className='node-info' style={{
@@ -121,9 +118,9 @@ const graph: React.FC<Props> = ({data, width, height}) => {
                     boxShadow:'0px 0px 10px rgba(0, 0, 0, 0.4)'
                     
                 }}>
-                    <h3>{clickNode.name}</h3>
-                    <p>Type: {clickNode.type}</p>
-                    <p>Option: {clickNode.option}</p>
+                    <h3>{clickNode.id}</h3>
+                    <p>TraceID: {clickNode.TraceID}</p>
+                    <p>StartTime: {clickNode.StartTime}</p>
                         <button style={{
                             position:'absolute',
                             bottom:'5%',

@@ -1,0 +1,183 @@
+{
+  "nodes": [
+    {
+      "id": "ts-admin-order-service",
+      "TraceID": "81657ab98c6b8e22",
+      "StartTime": 1681333251131000
+    },
+    {
+      "id": "ts-order-other-service",
+      "TraceID": "81657ab98c6b8e22",
+      "StartTime": 1681333251131000
+    },
+    {
+      "id": "ts-order-service",
+      "TraceID": "81657ab98c6b8e22",
+      "StartTime": 1681333251063000
+    },
+    {
+      "id": "ts-admin-route-service",
+      "TraceID": "ab0d49b0fa5df4d4",
+      "StartTime": 1681333252424000
+    },
+    {
+      "id": "ts-route-service",
+      "TraceID": "ab0d49b0fa5df4d4",
+      "StartTime": 1681333252424000
+    },
+    {
+      "id": "ts-travel-service",
+      "TraceID": "eacba9d247343ead",
+      "StartTime": 1681333253745000
+    },
+    {
+      "id": "ts-train-service",
+      "TraceID": "eacba9d247343ead",
+      "StartTime": 1681333253745000
+    },
+    {
+      "id": "ts-travel2-service",
+      "TraceID": "eacba9d247343ead",
+      "StartTime": 1681333254044000
+    },
+    {
+      "id": "ts-admin-travel-service",
+      "TraceID": "eacba9d247343ead",
+      "StartTime": 1681333253325000
+    },
+    {
+      "id": "ts-auth-service",
+      "TraceID": "02d4301ba7583711",
+      "StartTime": 1681237207314000
+    },
+    {
+      "id": "ts-verification-code-service",
+      "TraceID": "02d4301ba7583711",
+      "StartTime": 1681237207314000
+    },
+    {
+      "id": "ts-ticketinfo-service",
+      "TraceID": "b005f6550472682e",
+      "StartTime": 1681250135468000
+    },
+    {
+      "id": "ts-basic-service",
+      "TraceID": "b005f6550472682e",
+      "StartTime": 1681250135468000
+    },
+    {
+      "id": "ts-station-service",
+      "TraceID": "b005f6550472682e",
+      "StartTime": 1681250135472000
+    },
+    {
+      "id": "ts-price-service",
+      "TraceID": "58bbc7be6ebfa30e",
+      "StartTime": 1681242316655000
+    },
+    {
+      "id": "ts-seat-service",
+      "TraceID": "58bbc7be6ebfa30e",
+      "StartTime": 1681242317228000
+    },
+    {
+      "id": "ts-config-service",
+      "TraceID": "58bbc7be6ebfa30e",
+      "StartTime": 1681242317251000
+    }
+  ],
+  "links": [
+    {
+      "source": "ts-admin-order-service",
+      "target": "ts-order-other-service"
+    },
+    {
+      "source": "ts-admin-order-service",
+      "target": "ts-order-service"
+    },
+    {
+      "source": "ts-admin-route-service",
+      "target": "ts-route-service"
+    },
+    {
+      "source": "ts-travel-service",
+      "target": "ts-train-service"
+    },
+    {
+      "source": "ts-travel-service",
+      "target": "ts-route-service"
+    },
+    {
+      "source": "ts-travel2-service",
+      "target": "ts-route-service"
+    },
+    {
+      "source": "ts-travel2-service",
+      "target": "ts-train-service"
+    },
+    {
+      "source": "ts-admin-travel-service",
+      "target": "ts-travel-service"
+    },
+    {
+      "source": "ts-admin-travel-service",
+      "target": "ts-travel2-service"
+    },
+    {
+      "source": "ts-auth-service",
+      "target": "ts-verification-code-service"
+    },
+    {
+      "source": "ts-ticketinfo-service",
+      "target": "ts-basic-service"
+    },
+    {
+      "source": "ts-basic-service",
+      "target": "ts-station-service"
+    },
+    {
+      "source": "ts-travel-service",
+      "target": "ts-ticketinfo-service"
+    },
+    {
+      "source": "ts-basic-service",
+      "target": "ts-train-service"
+    },
+    {
+      "source": "ts-basic-service",
+      "target": "ts-route-service"
+    },
+    {
+      "source": "ts-basic-service",
+      "target": "ts-price-service"
+    },
+    {
+      "source": "ts-travel-service",
+      "target": "ts-order-service"
+    },
+    {
+      "source": "ts-travel-service",
+      "target": "ts-seat-service"
+    },
+    {
+      "source": "ts-seat-service",
+      "target": "ts-config-service"
+    },
+    {
+      "source": "ts-seat-service",
+      "target": "ts-travel-service"
+    },
+    {
+      "source": "ts-seat-service",
+      "target": "ts-order-service"
+    },
+    {
+      "source": "ts-order-other-service",
+      "target": "ts-order-other-service"
+    },
+    {
+      "source": "ts-order-service",
+      "target": "ts-order-service"
+    }
+  ]
+}
