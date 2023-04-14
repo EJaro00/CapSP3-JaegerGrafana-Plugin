@@ -78,36 +78,49 @@ export function findNanoservices(vertices: any[], edges: any[], threshold: numbe
  * @param edges Array of all vertex-to-vertex edges in our graph
  * @returns A set containing the indices of all vertices that make up a cycle
  */
-export function findCycles(vertices: any[], edges: any[]): Set<number> {
+export function findCycles(vertices: string[], edges: any[]): Set<number> {
   const visited: boolean[] = new Array(vertices.length).fill(false);
   const inStack: boolean[] = new Array(vertices.length).fill(false);
-  let result = new Set<number>;
-
-  function dfs(v: string): void {
-    visited[vertices.indexOf(v)] = true;
-    inStack[vertices.indexOf(v)] = true;
-
-    for (const e of edges) {
-      if (e.source === v) {
-        const u = e.target;
-        const index = vertices.findIndex(vertex => vertex.id === u);
-
-        if (!visited[index]) {
-          dfs(u);
-        } else if (inStack[index]) {
-          for (let i = vertices.indexOf(v); i <= index; i++) {
-            result.add(i);
-          }
-        }
-      }
-    }
-
-    inStack[vertices.indexOf(v)] = false;
-  }
+  const result: Set<number> = new Set<number>;
+  const stack: string[] = [];
 
   for (const v of vertices) {
-    if (!visited[vertices.indexOf(v.id)]) {
-      dfs(v.id);
+    if (!visited[vertices.indexOf(v)]) {
+      stack.push(v);
+
+      while (stack.length > 0) {
+        const curr = stack[stack.length - 1];
+        const index = vertices.indexOf(curr);
+        visited[index] = true;
+        inStack[index] = true;
+
+        let found = false;
+
+        for (const e of edges) {
+          if (e.source === curr) {
+            const u = e.target;
+            const uIndex = vertices.indexOf(u);
+
+            if (!visited[uIndex]) {
+              stack.push(u);
+              found = true;
+              break;
+            } else if (inStack[uIndex]) {
+              for (let i = vertices.indexOf(curr); i <= uIndex; i++) {
+                result.add(i);
+              }
+
+              found = true;
+              break;
+            }
+          }
+        }
+
+        if (!found) {
+          stack.pop();
+          inStack[index] = false;
+        }
+      }
     }
   }
 
