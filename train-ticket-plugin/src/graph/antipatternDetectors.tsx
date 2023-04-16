@@ -1,50 +1,5 @@
-
-/**
- * Finds one strongly connected component (SCC) in a graph using DFS.
- * @param vertices Array of all vertices in our graph
- * @param edges Array of all vertex-to-vertex edges in our graph
- * @param visited Array of booleans telling us whether the corresponding vertex has been visited
- * @param currentNode The current node we're visiting for this iteration of dfs
- * @param stack Stack used to keep track of nodes in the current SCC
- */
- function dfsSCC(vertices: any[], edges: any[], visited: boolean[], currentNode: number, stack: any[]): void {
-  visited[currentNode] = true;
-  stack.push(currentNode);
-  for (let i = 0; i < edges.length; i++) {
-    //If the edge starts from our current node, continue DFS from the target node
-      if (edges[i].source === vertices[currentNode]["id"] && !visited[vertices.findIndex(vertex => vertex["id"] === edges[i].target)]) {
-          dfsSCC(vertices, edges, visited, vertices.findIndex(vertex => vertex["id"] === edges[i].target), stack);
-      }
-  }
-}
-
-/**
-* Finds all strongly connected components (SCCs) in a graph using DFS.
-* @param vertices Array of all vertices in our graph
-* @param edges Array of all vertex-to-vertex edges in our graph
-* @returns An array of arrays, each inner array containing the vertices that form a strongly connected component
-*/
-function findSCCs(vertices: any[], edges: any[]): number[][] {
-  const visited: boolean[] = new Array(vertices.length).fill(false);
-  const stack: any[] = [];
-  const sccs: number[][] = [];
-
-  for (let i = 0; i < vertices.length; i++) {
-      if (!visited[i]) {
-          dfsSCC(vertices, edges, visited, i, stack);
-          let scc: number[] = [];
-          let currentNode: any;
-          do {
-            //copy all nodes from stack into SCC
-              currentNode = stack.pop();
-              scc.push(currentNode);
-          } while (currentNode !== i);
-          //save SCC
-          sccs.push(scc);
-      }
-  }
-
-  return sccs;
+interface Graph {
+  [node: string]: string[];
 }
 
 /**
@@ -54,7 +9,8 @@ function findSCCs(vertices: any[], edges: any[]): number[][] {
  * @returns The number of edges pointing towards this node (indegree)
  */
 function getDegreeIn(node: any, edges: any[]): number {
-  let retVal: number = 0;
+  let retVal = 0;
+
 
   retVal = edges.filter(link => link.target === node.name).length;
 
@@ -68,7 +24,7 @@ function getDegreeIn(node: any, edges: any[]): number {
  * @returns The number of edges pointing away from this node (outdegree)
  */
 function getDegreeOut(node: any, edges: any[]): number {
-  let retVal: number = 0;
+  let retVal = 0;
 
   retVal = edges.filter(link => link.source === node.name).length;
 
@@ -76,46 +32,19 @@ function getDegreeOut(node: any, edges: any[]): number {
 }
 
 /**
- * Finds all nodes that make up cycles in a graph
- * @param vertices Array of all vertices in our graph
- * @param edges Array of all vertex-to-vertex edges in our graph
- * @returns An array containing a boolean for each vertex - true if it's part of a cycle, false otherwise
- */
-export function findCycles(vertices: any[], edges: any[]): boolean[]{
-
-  const retVal: boolean[] = new Array(vertices.length).fill(false);
-  let sccs: number[][] = findSCCs(vertices, edges);
-  let index : number = 0;
-  console.log(sccs)
-  for(let i = 0; i < sccs.length; i++){
-      //If the SCC contains more than one node, every node in the SCC is part of a cycle.
-      if(sccs[i].length > 1){
-          for(let k = 0; k < sccs[i].length; k++){
-              index = sccs[i][k];
-              retVal[index] = true;
-              console.log(index)
-          }
-      }
-  }
-
-  return retVal;
-
-}
-
-/**
  * Finds all bottleneck vertices in a graph according to a threshold
  * @param vertices Array of all vertices in our graph
  * @param edges Array of all vertex-to-vertex edges in our graph
  * @param threshold The user-defined threshold for how many edges create a bottleneck
- * @returns An array containing a boolean for each vertex - true if it's a bottleneck, false otherwise
+ * @returns An array containing a set of all vertex indices that correspond to a bottleneck vertex
  */
-export function findBottlenecks(vertices: any[], edges: any[], threshold: number): boolean[] {
+export function findBottlenecks(vertices: any[], edges: any[], threshold: number): Set<number> {
 
-  const retVal: boolean[] = new Array(vertices.length).fill(false);
+  let retVal = new Set<number>;
 
   for(let i = 0; i < vertices.length; i++){
     if(getDegreeIn(vertices[i], edges) > threshold){
-      retVal[i] = true;
+      retVal.add(i);
     }
   }
 
@@ -128,17 +57,75 @@ export function findBottlenecks(vertices: any[], edges: any[], threshold: number
  * @param vertices Array of all vertices in our graph
  * @param edges Array of all vertex-to-vertex edges in our graph
  * @param threshold The user-defined threshold for how many edges create a nanoservice
- * @returns An array containing a boolean for each vertex - true if it's a nanoservice, false otherwise
+ * @returns An array containing a set of all vertex indices that correspond to a nanoservice vertex
  */
-export function findNanoservices(vertices: any[], edges: any[], threshold: number): boolean[] {
+export function findNanoservices(vertices: any[], edges: any[], threshold: number): Set<number>{
   
-  const retVal: boolean[] = new Array(vertices.length).fill(false);
+  let retVal = new Set<number>;
 
   for(let i = 0; i < vertices.length; i++){
     if(getDegreeOut(vertices[i], edges) > threshold){
-      retVal[i] = true;
+      retVal.add(i);
     }
   }
 
   return retVal;
+}
+
+/*
+ Fixed part in bleow
+*/
+
+/**
+ * Find all nodes that make up cycles in a graph
+ * @param nodes a node array of all ndoes in our graph
+ * @param edges Array of all node to node edges in our graph
+ * @returns A array containing the node id that make up a cycle
+ */
+export function findCycles(nodes: any[], edges: any[]): string[] {
+  const graph: Graph = buildGraph(nodes, edges);
+  const visited = new Set<string>();
+  const visiting = new Set<string>();
+  const circularNodes: string[] = [];
+
+  for (const node of nodes) {
+    const nodeId = node.id;
+    if (!visited.has(nodeId)) {
+      dfs(nodeId, graph, visited, visiting, circularNodes);
+    }
+  }
+
+  return circularNodes;
+}
+
+function buildGraph(nodes: any[], edges: any[]): Graph {
+  const graph: Graph = {};
+  for (const node of nodes) {
+    graph[node.id] = [];
+  }
+  for (const edge of edges) {
+    const source = edge.source;
+    const target = edge.target;
+    graph[source].push(target);
+  }
+  return graph;
+}
+
+function dfs(node: string, graph: Graph, visited: Set<string>, visiting: Set<string>, circularNodes: string[], path: string[] = []) {
+  visited.add(node);
+  visiting.add(node);
+  path.push(node);
+
+  for (const neighbor of graph[node]) {
+    if (visited.has(neighbor)) {
+      if (visiting.has(neighbor)) {
+        circularNodes.push(...path.slice(path.indexOf(neighbor)));
+      }
+    } else {
+      dfs(neighbor, graph, visited, visiting, circularNodes, path);
+    }
+  }
+
+  visiting.delete(node);
+  path.pop();
 }
