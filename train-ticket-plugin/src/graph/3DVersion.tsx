@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { /*useEffect,*/ useRef, useState } from 'react';
 import {PanelData} from '@grafana/data';
 import ForceGraph3D, { ForceGraphMethods} from 'react-force-graph-3d';
 import SpriteText from 'three-spritetext';
 import myData from '../../../logfile/logging.json';
-
-import * as antidetector from './antipatternDetectors';
 
 
 type Props = {
@@ -24,48 +22,19 @@ function nodeObject(node : any){
 
 const graph: React.FC<Props> = ({data, width, height}) =>{
 
-    const cycles = antidetector.findCycles(myData.nodes, myData.links) as any
-    const [nodes, setNodes] = useState<any>([]) // nodes array
-    const [links, setLinks] = useState<any>([]) //links array
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
-
-    console.log(cycles)
-
-    useEffect(() => {
-        function add (){
-
-            const newNodes = [] as any;
-            const newLinks = [] as any;
-
-            for(let i = 0; i < myData.nodes.length; i++){
-                if(!cycles.includes(myData.nodes[i].id)){
-                    newNodes.push({'id': myData.nodes[i].id, 'TraceID': myData.nodes[i].TraceID, 'StartTime': myData.nodes[i].StartTime, 'color': '#19A7CE'})
-                }
-                else{
-                    newNodes.push({'id': myData.nodes[i].id, 'TraceID': myData.nodes[i].TraceID, 'StartTime': myData.nodes[i].StartTime, 'color': '#E90064'})
-                }
-            }
-
-            for(let i = 0; i < myData.links.length; i++){
-                newLinks.push({'source': myData.links[i].source, 'target': myData.links[i].target})
-            }
-
-            setNodes(newNodes)
-            setLinks(newLinks)
-        }
-        add()
-    },[data])
     
     const reference = useRef<ForceGraphMethods>();
 
     function dispalyNode(node:any){
         setClikNode(node);
     }
+    console.log(myData.nodes)
     return (
         <>
             <ForceGraph3D
             ref={reference}
-            graphData={{nodes,links}}
+            graphData={myData}
             backgroundColor = "#BDC3C7"
             width={width}
             height={height}
@@ -76,7 +45,7 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
             linkColor={() => '#146C94'}
             linkWidth = {3}
             //nodeColor = {() => nodes.color}
-            nodeAutoColorBy = {d => nodes.color%GROUPS}
+            nodeAutoColorBy = {d => myData.nodes.color}
             nodeThreeObjectExtend={true}
             nodeThreeObject={(node:any) => nodeObject(node)}
             onNodeClick={dispalyNode}
