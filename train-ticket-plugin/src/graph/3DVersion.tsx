@@ -29,7 +29,7 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
     function dispalyNode(node:any){
         setClikNode(node);
     }
-    console.log(myData.nodes)
+
     return (
         <>
             <ForceGraph3D
@@ -44,11 +44,11 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
             linkDirectionalParticleColor={()=>'#b0f70e'}
             linkColor={() => '#146C94'}
             linkWidth = {3}
-            //nodeColor = {() => nodes.color}
             nodeAutoColorBy = {d => myData.nodes.color}
             nodeThreeObjectExtend={true}
             nodeThreeObject={(node:any) => nodeObject(node)}
             onNodeClick={dispalyNode}
+            d3AlphaDecay = {0.09}
             />
             {clickNode && (
                 <div className='node-info' style={{
