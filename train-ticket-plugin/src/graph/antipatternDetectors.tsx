@@ -11,7 +11,7 @@ interface Graph {
 function getDegreeIn(node: any, edges: any[]): number {
   let retVal = 0;
 
-  retVal = edges.filter(link => link.target === node.id).length;
+  retVal = edges.filter(link => link.target === node.id && link.source !== node.id).length;
 
   return retVal;
 }
@@ -25,7 +25,7 @@ function getDegreeIn(node: any, edges: any[]): number {
 function getDegreeOut(node: any, edges: any[]): number {
   let retVal = 0;
 
-  retVal = edges.filter(link => link.source === node.id).length;
+  retVal = edges.filter(link => link.source === node.id && link.target !== node.id).length;
 
   return retVal;
 }
