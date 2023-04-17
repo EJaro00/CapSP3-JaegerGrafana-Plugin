@@ -24,15 +24,12 @@ function nodeObject(node : any){
 
 const graph: React.FC<Props> = ({data, width, height}) =>{
 
-    const cycles = antidetector.findCycles(myData.nodes, myData.links)
-
+    const cycles = antidetector.findCycles(myData.nodes, myData.links) as any
     const [nodes, setNodes] = useState<any>([]) // nodes array
     const [links, setLinks] = useState<any>([]) //links array
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
 
     console.log(cycles)
-    console.log(myData.nodes)
-    console.log(myData.links)
 
     useEffect(() => {
         function add (){
@@ -41,11 +38,11 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
             const newLinks = [] as any;
 
             for(let i = 0; i < myData.nodes.length; i++){
-                if(cycles[i]){
+                if(!cycles.includes(myData.nodes[i].id)){
                     newNodes.push({'id': myData.nodes[i].id, 'TraceID': myData.nodes[i].TraceID, 'StartTime': myData.nodes[i].StartTime, 'color': '#19A7CE'})
                 }
                 else{
-                    newNodes.push({'id': myData.nodes[i].id, 'TraceID': myData.nodes[i].TraceID, 'StartTime': myData.nodes[i].StartTime, 'color': 'Red'})
+                    newNodes.push({'id': myData.nodes[i].id, 'TraceID': myData.nodes[i].TraceID, 'StartTime': myData.nodes[i].StartTime, 'color': '#E90064'})
                 }
             }
 
