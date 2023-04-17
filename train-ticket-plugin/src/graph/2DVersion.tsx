@@ -61,7 +61,6 @@ const graph: React.FC<Props> = ({width, height}) => {
     }
 
     const reference = useRef<ForceGraphMethods>(); 
-    console.log(myData.nodes)
     return(
         <>
             <ForceGraph2d 

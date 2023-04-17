@@ -2,14 +2,14 @@
   "nodes": [
     {
       "id": "ts-auth-service",
-      "TraceID": "c4aaa5fcd9b2a4c0",
-      "StartTime": 1681762258867000,
+      "TraceID": "04deb6d8deacb28b",
+      "StartTime": 1681763032680000,
       "color": "#19A7CE"
     },
     {
       "id": "ts-verification-code-service",
-      "TraceID": "c4aaa5fcd9b2a4c0",
-      "StartTime": 1681762258867000,
+      "TraceID": "04deb6d8deacb28b",
+      "StartTime": 1681763032680000,
       "color": "#19A7CE"
     },
     {
