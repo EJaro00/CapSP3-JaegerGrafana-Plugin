@@ -11,8 +11,7 @@ interface Graph {
 function getDegreeIn(node: any, edges: any[]): number {
   let retVal = 0;
 
-
-  retVal = edges.filter(link => link.target === node.name).length;
+  retVal = edges.filter(link => link.target === node.id).length;
 
   return retVal;
 }
@@ -26,9 +25,35 @@ function getDegreeIn(node: any, edges: any[]): number {
 function getDegreeOut(node: any, edges: any[]): number {
   let retVal = 0;
 
-  retVal = edges.filter(link => link.source === node.name).length;
+  retVal = edges.filter(link => link.source === node.id).length;
 
   return retVal;
+}
+
+/**
+ * returns the Levenshtein Distance between two strings
+ * @param a The first string to compare
+ * @param b The second string to compare
+ * @returns The Levenshtein Distance between both strings
+ */
+const levenshtein = (a: string, b: string): number => {
+  const matrix = Array.from({ length: a.length })
+                      .map(() => Array.from({ length: b.length })
+                                      .map(() => 0))
+
+  for (let i = 0; i < a.length; i++) matrix[i][0] = i
+
+  for (let i = 0; i < b.length; i++) matrix[0][i] = i
+
+  for (let j = 0; j < b.length; j++)
+    for (let i = 0; i < a.length; i++)
+      matrix[i][j] = Math.min(
+        (i == 0 ? 0 : matrix[i - 1][j]) + 1,
+        (j == 0 ? 0 : matrix[i][j - 1]) + 1,
+        (i == 0 || j == 0 ? 0 : matrix[i - 1][j - 1]) + (a[i] == b[j] ? 0 : 1)
+      )
+
+  return matrix[a.length - 1][b.length - 1]
 }
 
 /**
@@ -36,15 +61,15 @@ function getDegreeOut(node: any, edges: any[]): number {
  * @param vertices Array of all vertices in our graph
  * @param edges Array of all vertex-to-vertex edges in our graph
  * @param threshold The user-defined threshold for how many edges create a bottleneck
- * @returns An array containing a set of all vertex indices that correspond to a bottleneck vertex
+ * @returns A set of all vertex id's that correspond to a bottleneck vertex
  */
-export function findBottlenecks(vertices: any[], edges: any[], threshold: number): Set<number> {
+export function findBottlenecks(vertices: any[], edges: any[], threshold: number): Set<string> {
 
-  let retVal = new Set<number>;
+  let retVal = new Set<string>;
 
   for(let i = 0; i < vertices.length; i++){
     if(getDegreeIn(vertices[i], edges) > threshold){
-      retVal.add(i);
+      retVal.add(vertices[i].id);
     }
   }
 
@@ -53,19 +78,40 @@ export function findBottlenecks(vertices: any[], edges: any[], threshold: number
 }
 
 /**
+ * Finds all potential duplicate services in a graph according to a threshold
+ * @param vertices Array of all vertices in our graph
+ * @param threshold The user-defined threshold for the maximum levenshtein distance of duplicate services
+ * @returns The set of all vertex id's that correspond to duplicate services
+ */
+export function findDuplicates(vertices: any[], threshold: number): Set<string> {
+
+  let retVal = new Set<string>;
+
+  for(let i = 0; i < vertices.length - 1; i++){
+    for(let j = i + 1; j < vertices.length; j++){
+      if(levenshtein(vertices[i].id, vertices[j].id) < threshold){
+        retVal.add(vertices[i].id).add(vertices[j].id);
+      }
+    }
+  }
+
+  return retVal;
+}
+
+/**
  * Finds all nanoservice vertices in a graph according to a threshold
  * @param vertices Array of all vertices in our graph
  * @param edges Array of all vertex-to-vertex edges in our graph
  * @param threshold The user-defined threshold for how many edges create a nanoservice
- * @returns An array containing a set of all vertex indices that correspond to a nanoservice vertex
+ * @returns A set of all vertex id's that correspond to a nanoservice vertex
  */
-export function findNanoservices(vertices: any[], edges: any[], threshold: number): Set<number>{
+export function findNanoservices(vertices: any[], edges: any[], threshold: number): Set<string>{
   
-  let retVal = new Set<number>;
+  let retVal = new Set<string>;
 
   for(let i = 0; i < vertices.length; i++){
     if(getDegreeOut(vertices[i], edges) > threshold){
-      retVal.add(i);
+      retVal.add(vertices[i].id);
     }
   }
 
@@ -99,10 +145,11 @@ export function findCycles(nodes: any[], edges: any[]): string[] {
 }
 
 function buildGraph(nodes: any[], edges: any[]): Graph {
-  const graph: Graph = {};
+  let graph: Graph = {};
   for (const node of nodes) {
     graph[node.id] = [];
   }
+
   for (const edge of edges) {
     const source = edge.source;
     const target = edge.target;

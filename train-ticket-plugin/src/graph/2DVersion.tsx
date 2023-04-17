@@ -61,6 +61,7 @@ const graph: React.FC<Props> = ({width, height}) => {
     }
 
     const reference = useRef<ForceGraphMethods>(); 
+    console.log(myData.nodes)
     return(
         <>
             <ForceGraph2d 
@@ -73,11 +74,12 @@ const graph: React.FC<Props> = ({width, height}) => {
             linkDirectionalParticleWidth={3}
             linkDirectionalParticleColor={()=>'#b0f70e'}
             linkColor={() => '#146C94'}
-            nodeColor = {() => '#19A7CE'}
+            nodeColor = {() => '#ffffff'}
+            //nodeAutoColorBy= {() => '#FFFFFF'}
             nodeCanvasObject={(node, ctx, scale)=>{textOnNode(node,ctx,scale)}}
             linkCanvasObject={(link, ctx, scale)=>{linkfix(link,ctx,scale)}}
             onNodeClick = {dispalyNode}
-            warmupTicks={100}
+            // warmupTicks={100}
             />
             {clickNode && (
                 <div className='node-info' style={{
