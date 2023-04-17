@@ -6,7 +6,7 @@ interface Graph {
  * Returns the indegree of a node in a graph
  * @param node The node we are investigating
  * @param edges The array of all edges in the graph
- * @returns The number of edges pointing towards this node (indegree)
+ * @returns The number of edges pointing towards this node (indegree) excluding self-cycles
  */
 function getDegreeIn(node: any, edges: any[]): number {
   let retVal = 0;
@@ -20,7 +20,7 @@ function getDegreeIn(node: any, edges: any[]): number {
  * Returns the outdegree of a node in a graph
  * @param node The node we are investigating
  * @param edges The array of all edges in the graph
- * @returns The number of edges pointing away from this node (outdegree)
+ * @returns The number of edges pointing away from this node (outdegree) excluding self-cycles
  */
 function getDegreeOut(node: any, edges: any[]): number {
   let retVal = 0;
