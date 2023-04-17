@@ -16,7 +16,7 @@ function textOnNode(node: any, ctx: any, globalScale: any){
     //draw Cycle
     ctx.beginPath();
     ctx.arc(x, y, nodeSize+3, 0, 2 * Math.PI);
-    ctx.fillStyle = "rgba(22,136,163,0.5)";
+    ctx.fillStyle = node.color;
     ctx.fill();
     //write text
     ctx.font = `${fontSize}px Sans-Serif`;
@@ -60,7 +60,9 @@ const graph: React.FC<Props> = ({width, height}) => {
         setClikNode(node);
     }
 
+
     const reference = useRef<ForceGraphMethods>(); 
+    console.log(myData.nodes)
     return(
         <>
             <ForceGraph2d 
@@ -72,13 +74,10 @@ const graph: React.FC<Props> = ({width, height}) => {
             linkDirectionalParticles={2}
             linkDirectionalParticleWidth={3}
             linkDirectionalParticleColor={()=>'#b0f70e'}
-            linkColor={() => '#146C94'}
-            nodeColor = {() => '#ffffff'}
-            //nodeAutoColorBy= {() => '#FFFFFF'}
+            linkColor={() => '#000000'}
             nodeCanvasObject={(node, ctx, scale)=>{textOnNode(node,ctx,scale)}}
             linkCanvasObject={(link, ctx, scale)=>{linkfix(link,ctx,scale)}}
             onNodeClick = {dispalyNode}
-            // warmupTicks={100}
             />
             {clickNode && (
                 <div className='node-info' style={{
