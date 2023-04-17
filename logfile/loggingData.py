@@ -2,8 +2,6 @@ import datetime
 import json
 import time
 import requests
-import csv
-import pandas as pd
 import microservice_list as ms
 import schedule
 import time
@@ -52,16 +50,21 @@ def job():
 
                     pair_key = (source, target)
 
+                    if pair_key in unique_source_target_pairs:
+                        for link in output_data["links"]:
+                            if link["source"] == source and link["target"] == target:
+                                link["frequence"] = link["frequence"] + 1
+
                     if pair_key not in unique_source_target_pairs:
                         unique_source_target_pairs.add(pair_key)
-                        output_data["links"].append({"source": source, "target": target})
+                        output_data["links"].append({"source": source, "target": target, "frequence": 0})
 
                         if source not in unique_nodes:
-                            output_data["nodes"].append({"id": source, "TraceID": traceID, "StartTime": startTime})
+                            output_data["nodes"].append({"id": source, "TraceID": traceID, "StartTime": startTime, "color": "#19A7CE"})
                             unique_nodes.add(source)
 
                         if target not in unique_nodes:
-                            output_data["nodes"].append({"id": target, "TraceID": traceID, "StartTime": startTime})
+                            output_data["nodes"].append({"id": target, "TraceID": traceID, "StartTime": startTime, "color": "#19A7CE"})
                             unique_nodes.add(target)
 
                 else:

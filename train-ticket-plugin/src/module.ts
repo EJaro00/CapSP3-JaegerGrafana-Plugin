@@ -7,7 +7,7 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
   .addRadio({
     path: 'displayDimension',
     name: 'Would like to diplay 2D or 3D',
-    defaultValue: '2D',
+    defaultValue: '2d',
     settings:{
       options:[{
         value: '2d',
