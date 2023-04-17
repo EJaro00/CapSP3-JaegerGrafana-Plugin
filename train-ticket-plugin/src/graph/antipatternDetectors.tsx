@@ -1,10 +1,5 @@
-interface Vertex {
-  id: string;
-}
-
-interface Edge {
-  source: string;
-  target: string;
+interface Graph {
+  [node: string]: string[];
 }
 
 /**
@@ -35,8 +30,6 @@ function getDegreeOut(node: any, edges: any[]): number {
 
   return retVal;
 }
-
-
 
 /**
  * Finds all bottleneck vertices in a graph according to a threshold
@@ -79,63 +72,60 @@ export function findNanoservices(vertices: any[], edges: any[], threshold: numbe
   return retVal;
 }
 
+/*
+ Fixed part in bleow
+*/
+
 /**
- * Finds all nodes that make up cycles in a graph
- * @param vertices Array of all vertices in our graph
- * @param edges Array of all vertex-to-vertex edges in our graph
- * @returns A set containing the indices of all vertices that make up a cycle
+ * Find all nodes that make up cycles in a graph
+ * @param nodes a node array of all ndoes in our graph
+ * @param edges Array of all node to node edges in our graph
+ * @returns A array containing the node id that make up a cycle
  */
-export function findCycles(vertices: Vertex[], edges: Edge[]): Set<number> {
-  const visited: boolean[] = new Array(vertices.length).fill(false);
-  const inStack: boolean[] = new Array(vertices.length).fill(false);
-  const stack: Vertex[] = [];
-  const result: Set<number> = new Set();
+export function findCycles(nodes: any[], edges: any[]): string[] {
+  const graph: Graph = buildGraph(nodes, edges);
+  const visited = new Set<string>();
+  const visiting = new Set<string>();
+  const circularNodes: string[] = [];
 
-  for (const v of vertices) {
-    const index = vertices.indexOf(v);
-
-    if (!visited[index]) {
-      stack.push(v);
-
-      while (stack.length > 0) {
-        const curr = stack[stack.length - 1];
-        const currIndex = vertices.indexOf(curr);
-        visited[currIndex] = true;
-        inStack[currIndex] = true;
-
-        let found = false;
-
-        for (const e of edges) {
-          if (e.source === curr.id) {
-            const u = vertices.find((v) => v.id === e.target);
-
-            if (u === undefined) {
-              console.error(`Target vertex \${e.target} not found in vertices array`);
-              continue;
-            }
-
-            if (!visited[vertices.indexOf(u)]) {
-              stack.push(u);
-              found = true;
-              break;
-            } else if (inStack[vertices.indexOf(u)]) {
-              for (let i = currIndex; i <= vertices.indexOf(u); i++) {
-                result.add(i);
-              }
-
-              found = true;
-              break;
-            }
-          }
-        }
-
-        if (!found) {
-          stack.pop();
-          inStack[currIndex] = false;
-        }
-      }
+  for (const node of nodes) {
+    const nodeId = node.id;
+    if (!visited.has(nodeId)) {
+      dfs(nodeId, graph, visited, visiting, circularNodes);
     }
   }
 
-  return result;
+  return circularNodes;
+}
+
+function buildGraph(nodes: any[], edges: any[]): Graph {
+  const graph: Graph = {};
+  for (const node of nodes) {
+    graph[node.id] = [];
+  }
+  for (const edge of edges) {
+    const source = edge.source;
+    const target = edge.target;
+    graph[source].push(target);
+  }
+  return graph;
+}
+
+function dfs(node: string, graph: Graph, visited: Set<string>, visiting: Set<string>, circularNodes: string[], path: string[] = []) {
+  visited.add(node);
+  visiting.add(node);
+  path.push(node);
+
+  for (const neighbor of graph[node]) {
+    if (visited.has(neighbor)) {
+      if (visiting.has(neighbor)) {
+        circularNodes.push(...path.slice(path.indexOf(neighbor)));
+      }
+    } else {
+      dfs(neighbor, graph, visited, visiting, circularNodes, path);
+    }
+  }
+
+  visiting.delete(node);
+  path.pop();
 }
