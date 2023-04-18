@@ -41,17 +41,17 @@ const levenshtein = (a: string, b: string): number => {
                       .map(() => Array.from({ length: b.length })
                                       .map(() => 0))
 
-  for (let i = 0; i < a.length; i++) matrix[i][0] = i
+  for (let i = 0; i < a.length; i++) {matrix[i][0] = i}
 
-  for (let i = 0; i < b.length; i++) matrix[0][i] = i
+  for (let i = 0; i < b.length; i++) {matrix[0][i] = i}
 
   for (let j = 0; j < b.length; j++)
-    for (let i = 0; i < a.length; i++)
-      matrix[i][j] = Math.min(
+    {for (let i = 0; i < a.length; i++)
+      {matrix[i][j] = Math.min(
         (i == 0 ? 0 : matrix[i - 1][j]) + 1,
         (j == 0 ? 0 : matrix[i][j - 1]) + 1,
         (i == 0 || j == 0 ? 0 : matrix[i - 1][j - 1]) + (a[i] == b[j] ? 0 : 1)
-      )
+      )}}
 
   return matrix[a.length - 1][b.length - 1]
 }
@@ -65,7 +65,7 @@ const levenshtein = (a: string, b: string): number => {
  */
 export function findBottlenecks(vertices: any[], edges: any[], threshold: number): Set<string> {
 
-  let retVal = new Set<string>;
+  let retVal = new Set<string>();
 
   for(let i = 0; i < vertices.length; i++){
     if(getDegreeIn(vertices[i], edges) > threshold){
@@ -85,7 +85,7 @@ export function findBottlenecks(vertices: any[], edges: any[], threshold: number
  */
 export function findDuplicates(vertices: any[], threshold: number): Set<string> {
 
-  let retVal = new Set<string>;
+  let retVal = new Set<string>();
 
   for(let i = 0; i < vertices.length - 1; i++){
     for(let j = i + 1; j < vertices.length; j++){
@@ -107,7 +107,7 @@ export function findDuplicates(vertices: any[], threshold: number): Set<string> 
  */
 export function findNanoservices(vertices: any[], edges: any[], threshold: number): Set<string>{
   
-  let retVal = new Set<string>;
+  let retVal = new Set<string>();
 
   for(let i = 0; i < vertices.length; i++){
     if(getDegreeOut(vertices[i], edges) > threshold){

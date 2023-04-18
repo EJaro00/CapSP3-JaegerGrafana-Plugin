@@ -1,9 +1,13 @@
-import React, {useRef, useState } from "react";
-import ForceGraph2d, { ForceGraphMethods } from "react-force-graph-2d";
-import myData from '../../../logfile/logging.json';
+import React, {useState } from "react";
+import ForceGraph2d from "react-force-graph-2d";
+
+
+
 type Props = {
     width: number;
     height: number;
+    myData: any;
+    reference:any
 }
 
 //Text on node(Sprite Text)
@@ -26,41 +30,24 @@ function textOnNode(node: any, ctx: any, globalScale: any){
     ctx.fillText(label, x, y);
 }
 
-//
-function linkfix(link: any, ctx: any, scale: any){
-    const { source, target } = link;
-    const nodeSize = 15 / scale;
-
-    // calculate length and angle
-    const dx = target.x - source.x;
-    const dy = target.y - source.y;
-    const angle = Math.atan2(dy, dx);
-
-    //computing coordinate
-    const sx = source.x + (nodeSize + 5) * Math.cos(angle);
-    const sy = source.y + (nodeSize + 5) * Math.sin(angle);
-    const tx = target.x - (nodeSize + 5) * Math.cos(angle);
-    const ty = target.y - (nodeSize + 5) * Math.sin(angle);
-
-    //draw line
-    ctx.beginPath();
-    ctx.moveTo(sx, sy);
-    ctx.lineTo(tx, ty);
-    ctx.strokeStyle = "#146C94";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
+function changelinkColor(link:any){
+    const feq = link.frequence;
+    if(feq <= 100){
+        return '#146C94'
+    }else if(feq > 100 && feq <= 500){
+        return '#F7D060'
+    }
+    return '#F45050'
 }
 
-
-const graph: React.FC<Props> = ({width, height}) => {
+const Graph: React.FC<Props> = ({myData,width,height,reference}) => {
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
-
-    function dispalyNode(node:any){
+    
+    console.log(1)
+    function dispalyNode(node: any){
         setClikNode(node);
     }
 
-    const reference = useRef<ForceGraphMethods>(); 
     return(
         <>
             <ForceGraph2d 
@@ -69,14 +56,13 @@ const graph: React.FC<Props> = ({width, height}) => {
             backgroundColor = "#BDC3C7"
             width={width}
             height={height}
-            linkDirectionalParticles={2}
-            linkDirectionalParticleWidth={3}
-            linkDirectionalParticleColor={()=>'#b0f70e'}
-            linkColor={() => '#146C94'}
+            linkDirectionalArrowLength={6}
+            linkDirectionalArrowRelPos={0.5}
+            linkDirectionalArrowColor = {()=>'#b0f70e'}
+            linkColor={(link:any) => changelinkColor(link)}
             nodeCanvasObject={(node, ctx, scale)=>{textOnNode(node,ctx,scale)}}
-            linkCanvasObject={(link, ctx, scale)=>{linkfix(link,ctx,scale)}}
             onNodeClick = {dispalyNode}
-            d3AlphaDecay = {0.09}
+
             />
             {clickNode && (
                 <div className='node-info' style={{
@@ -110,4 +96,4 @@ const graph: React.FC<Props> = ({width, height}) => {
         </>
     )
 }
-export default graph;
+export default Graph;

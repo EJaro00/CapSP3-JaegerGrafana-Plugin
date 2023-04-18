@@ -1,18 +1,17 @@
-import React, { /*useEffect,*/ useRef, useState } from 'react';
-import {PanelData} from '@grafana/data';
-import ForceGraph3D, { ForceGraphMethods} from 'react-force-graph-3d';
+import React, {useState } from 'react';
+import ForceGraph3D from 'react-force-graph-3d';
 import SpriteText from 'three-spritetext';
-import myData from '../../../logfile/logging.json';
 
 
 type Props = {
-    data: PanelData;
     width: number;
     height: number;
+    myData:any;
+    reference:any;
 }
 
 //Text on node(Sprite Text)
-function nodeObject(node : any){
+function nodeObject(node: any){
     const sprite = new SpriteText(node.id);
     sprite.color = '#000000'
     sprite.textHeight = 5
@@ -20,16 +19,25 @@ function nodeObject(node : any){
     return sprite;
 }
 
-const graph: React.FC<Props> = ({data, width, height}) =>{
+function changelinkColor(link:any){
+    console.log(link);
 
-    const [clickNode, setClikNode] = useState<any>(null) //set click Node state
-    
-    const reference = useRef<ForceGraphMethods>();
+    const feq = link.frequence;
+    if(feq <= 100){
+        return '#146C94'
+    }else if(feq > 100 && feq <= 500){
+        return '#F7D060'
+    }
+    return '#F45050'
+}
+const Graph2: React.FC<Props> = ({myData,width, height, reference}) =>{
+    console.log(myData);
+    const [clickNode, setClikNode] = useState<any>() //set click Node state
 
-    function dispalyNode(node:any){
+    function dispalyNode(node: any){
         setClikNode(node);
     }
-
+    
     return (
         <>
             <ForceGraph3D
@@ -39,17 +47,19 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
             width={width}
             height={height}
             nodeLabel={'id'}
+            linkLabel={'frequence'}
             linkDirectionalParticles={2}
             linkDirectionalParticleWidth={3}
             linkDirectionalParticleColor={()=>'#b0f70e'}
-            linkColor={() => '#146C94'}
+            linkColor={(link:any) => changelinkColor(link)}
             linkWidth = {3}
-            nodeAutoColorBy = {d => myData.nodes.color}
+            nodeAutoColorBy = {(node: any) => node.color}
             nodeThreeObjectExtend={true}
-            nodeThreeObject={(node:any) => nodeObject(node)}
+            nodeThreeObject={(node: any) => nodeObject(node)}
             onNodeClick={dispalyNode}
             d3AlphaDecay = {0.09}
             />
+
             {clickNode && (
                 <div className='node-info' style={{
                     position: 'absolute',
@@ -82,4 +92,5 @@ const graph: React.FC<Props> = ({data, width, height}) =>{
     );
 }
 
-export default graph;
+export default Graph2;
+
