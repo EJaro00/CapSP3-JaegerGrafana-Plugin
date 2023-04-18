@@ -1,43 +1,69 @@
-import { PanelProps} from '@grafana/data';
+import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
 import graph2d from './graph/2DVersion';
 import graph3d from './graph/3DVersion';
 
 import React, { useEffect, useRef, useState } from 'react';
-import myData from '../../logfile/logging.json';
 import * as antidetector from './graph/antipatternDetectors';
+import { ForceGraphMethods } from 'react-force-graph-2d';
 
 interface Props extends PanelProps<SimpleOptions> {}
-const cycles = antidetector.findCycles(myData.nodes, myData.links) as any
-export const SimplePanel: React.FC<Props> = ({options, data, width, height}) => {
 
-  const [nodes, setNodes] = useState<any>([]) // nodes array
-  const [links, setLinks] = useState<any>([]) //links array
+export const SimplePanel: React.FC<Props> = ({options, data, width, height}) => {
+  const reference = useRef<ForceGraphMethods>();
+
+
+  const [myData, setMyData] = useState<any>(null);
+  const [nodes, setNodes] = useState<any>([]);
+  const [links, setLinks] = useState<any>([]);
 
   useEffect(() => {
-    function add (){
-
-        const newNodes = [] as any;
-        const newLinks = [] as any;
-
-        for(let i = 0; i < myData.nodes.length; i++){
-            if(cycles.includes(myData.nodes[i].id)){
-                myData.nodes[i].color = '#E90064'
-            }
-        }
-
-        for(let i = 0; i < myData.links.length; i++){
-            newLinks.push({'source': myData.links[i].source, 'target': myData.links[i].target})
-        }
-
-        setNodes(newNodes)
-        setLinks(newLinks)
+    async function fetchData() {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/logging');
+        const jsonData = await response.json();
+        setMyData(jsonData);
+      } catch (error) {
+        console.error(error);
+      }
     }
-    add()
-},[data])
-  if(options.displayDimension === '3d'){
-      return graph3d({data, width,height});
-      //return(<h1>still working on it</h1>)
+
+    fetchData();
+  }, [data]);
+
+  useEffect(() => {
+    function add() {
+      if (!myData) {
+        return;
+      }
+
+      const cycles = antidetector.findCycles(myData.nodes, myData.links) as any;
+      const newNodes = [] as any;
+      const newLinks = [] as any;
+
+      for (let i = 0; i < myData.nodes.length; i++) {
+        if (cycles.includes(myData.nodes[i].id)) {
+          myData.nodes[i].color = '#E90064';
+        }
+        newNodes.push(myData.nodes[i]);
+      }
+
+      for (let i = 0; i < myData.links.length; i++) {
+        newLinks.push(myData.links[i]);
+      }
+
+      setNodes(newNodes);
+      setLinks(newLinks);
     }
-    return graph2d({width, height});
+
+    add();
+  }, [myData]);
+
+  console.log(myData);
+
+  if (options.displayDimension === '3d') {
+    return graph3d({ myData: { nodes, links }, width, height, reference});
+  }
+
+  return graph2d({ myData: { nodes, links }, width, height, reference });
 };
