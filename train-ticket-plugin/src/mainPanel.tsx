@@ -37,6 +37,13 @@ export const SimplePanel: React.FC<Props> = ({options, data, width, height}) => 
         return;
       }
 
+      let antiPattern = antidetector.findBottlenecks(myData.nodes, myData.links, options.threshold) as any
+      if(options.algorithm == 'nanoservices'){
+        antiPattern = antidetector.findNanoservices(myData.nodes, myData.links, options.threshold) as any
+      }
+
+      console.log(antiPattern)
+
       const cycles = antidetector.findCycles(myData.nodes, myData.links) as any;
       const newNodes = [] as any;
       const newLinks = [] as any;
@@ -44,6 +51,9 @@ export const SimplePanel: React.FC<Props> = ({options, data, width, height}) => 
       for (let i = 0; i < myData.nodes.length; i++) {
         if (cycles.includes(myData.nodes[i].id)) {
           myData.nodes[i].color = '#E90064';
+        }
+        if(antiPattern.has(myData.nodes[i].id)){
+          myData.nodes[i].textcolor = "Purple"
         }
         newNodes.push(myData.nodes[i]);
       }
@@ -58,8 +68,6 @@ export const SimplePanel: React.FC<Props> = ({options, data, width, height}) => 
 
     add();
   }, [myData]);
-
-  console.log(myData);
 
   if (options.displayDimension === '3d') {
     return graph3d({ myData: { nodes, links }, width, height, reference});
