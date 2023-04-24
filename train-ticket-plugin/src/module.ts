@@ -19,4 +19,24 @@ export const plugin = new PanelPlugin<SimpleOptions>(SimplePanel).setPanelOption
       }]
     }
   })
+  .addRadio({
+    path: 'algorithm',
+    name: 'Algorithm',
+    defaultValue: 'bottlenecks',
+    settings:{
+      options:[{
+        value: 'bottlenecks',
+        label: 'Bottlenecks',
+      },
+      {
+        value: 'nanoservices',
+        label: 'Nanoservices',
+      }]
+    }
+  })
+  .addNumberInput({
+    path: 'threshold',
+    name: 'Threshold',
+    defaultValue: 0
+  })
 });
