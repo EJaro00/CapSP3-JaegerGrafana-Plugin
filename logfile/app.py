@@ -7,6 +7,8 @@ import microservice_list as ms
 import schedule
 from flask_cors import CORS #pip install -U flask-cors
 
+ipaddr = input("Enter the IP address& Port: ")
+options = input("Tracing 5m or ALL: ")
 app = Flask(__name__)
 CORS(app)
 
@@ -40,8 +42,11 @@ def job():
     for service_name in ms.list:
         print(service_name)
         # Sending the API request and get the microservice trace
-        # url = f'http://192.168.3.203:5000/api/traces?end={date_stamp}&limit=20&lookback=5m&maxDuration&minDuration&service={service_name}&start={pass_stamp}'
-        url = f'http://192.168.3.203:5000/api/traces?service={service_name}'
+        if(options == "5m"):
+            url = f'http://192.168.3.203:5000/api/traces?end={date_stamp}&limit=20&lookback=5m&maxDuration&minDuration&service={service_name}&start={pass_stamp}'
+        else:
+            url = f'http://{ipaddr}/api/traces?service={service_name}'
+            
         response = requests.get(url)
         # getting JSON format data
         data = json.loads(response.text)
