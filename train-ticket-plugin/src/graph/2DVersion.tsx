@@ -24,7 +24,8 @@ function textOnNode(node: any, ctx: any, globalScale: any){
     ctx.fill();
     //write text
     ctx.font = `${fontSize}px Sans-Serif`;
-    ctx.fillStyle = "#000";
+    // ctx.fillStyle = "#000";
+    ctx.fillStyle = node.textcolor;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(label, x, y);
@@ -43,7 +44,6 @@ function changelinkColor(link:any){
 const Graph: React.FC<Props> = ({myData,width,height,reference}) => {
     const [clickNode, setClikNode] = useState<any>(null) //set click Node state
     
-    console.log(1)
     function dispalyNode(node: any){
         setClikNode(node);
     }
@@ -56,12 +56,14 @@ const Graph: React.FC<Props> = ({myData,width,height,reference}) => {
             backgroundColor = "#BDC3C7"
             width={width}
             height={height}
-            linkDirectionalArrowLength={6}
-            linkDirectionalArrowRelPos={0.5}
+            linkDirectionalArrowLength={3}
+            linkDirectionalArrowRelPos={1}
+            
             linkDirectionalArrowColor = {()=>'#b0f70e'}
             linkColor={(link:any) => changelinkColor(link)}
             nodeCanvasObject={(node, ctx, scale)=>{textOnNode(node,ctx,scale)}}
             onNodeClick = {dispalyNode}
+            linkCurvature = {0.4}
 
             />
             {clickNode && (

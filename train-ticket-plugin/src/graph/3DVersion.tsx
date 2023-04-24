@@ -13,7 +13,8 @@ type Props = {
 //Text on node(Sprite Text)
 function nodeObject(node: any){
     const sprite = new SpriteText(node.id);
-    sprite.color = '#000000'
+    // sprite.color = '#000000'
+    sprite.color = node.textcolor
     sprite.textHeight = 5
     sprite.position.y = 8
     return sprite;
@@ -58,6 +59,7 @@ const Graph2: React.FC<Props> = ({myData,width, height, reference}) =>{
             nodeThreeObject={(node: any) => nodeObject(node)}
             onNodeClick={dispalyNode}
             d3AlphaDecay = {0.09}
+            linkCurvature = {0.2}
             />
 
             {clickNode && (
@@ -93,4 +95,3 @@ const Graph2: React.FC<Props> = ({myData,width, height, reference}) =>{
 }
 
 export default Graph2;
-
