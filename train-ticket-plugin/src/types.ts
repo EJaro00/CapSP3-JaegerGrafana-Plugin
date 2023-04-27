@@ -3,4 +3,6 @@
 // version: 1.0
 export interface SimpleOptions {
   displayDimension: string;
+  algorithm: string;
+  threshold: number;
 }
