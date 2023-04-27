@@ -6,3 +6,7 @@ For our group, we picked the [Train-Ticket](https://github.com/FudanSELab/train-
 Team Leader: `Eric Jaroszewski`
 
 Team Members: `Evan Berryman`,`Yangzekun Gao`,`Zhengyan Hu`,`Maiqi Hou`
+
+---
+## Log Trace File
+Our group provides a `Jaeger Tracing.exe` to help users to trace each microservices and comprehensive a completed local file. We offer two options for tracing mode: `5m`-traceing recently 5 minutes data and `ALL`-tracing data within 2 days.
