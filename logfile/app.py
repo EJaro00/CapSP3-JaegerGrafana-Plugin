@@ -43,7 +43,7 @@ def job():
         print(service_name)
         # Sending the API request and get the microservice trace
         if(options == "5m"):
-            url = f'http://192.168.3.203:5000/api/traces?end={date_stamp}&limit=20&lookback=5m&maxDuration&minDuration&service={service_name}&start={pass_stamp}'
+            url = f'http://{ipaddr}/api/traces?end={date_stamp}&limit=20&lookback=5m&maxDuration&minDuration&service={service_name}&start={pass_stamp}'
         else:
             url = f'http://{ipaddr}/api/traces?service={service_name}'
             
