@@ -14,13 +14,13 @@ Our group provides a `Jaeger Tracing.exe` to help users to trace each microservi
 Once you open the executable file, it allows users to enter an IP address and a port, which is the IP and port of your developed Jaeger.
 We also offer two options for tracing mode: `5m`-traceing recently 5 minutes data and `ALL`-tracing data within 2 days.
 
-![exefile]()
+![exefile](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/1.png)
 
 After you enter the above information, you can access http://localhost:5000 in your browser. It will show a "Hello, World!" page, which means you access using http://localhost:5000/logging and it is your tracing file. All of our Grafana data source get their data from this URL.
 
-![exefile1]()
+![exefile1](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/2.png)
 
-![exefile2]()
+![exefile2](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/3.png)
 
 
 ---
