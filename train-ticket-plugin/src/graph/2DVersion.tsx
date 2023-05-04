@@ -7,7 +7,7 @@ type Props = {
     width: number;
     height: number;
     myData: any;
-    reference:any
+    reference: any
 }
 
 //Text on node(Sprite Text)
@@ -31,7 +31,7 @@ function textOnNode(node: any, ctx: any, globalScale: any){
     ctx.fillText(label, x, y);
 }
 
-function changelinkColor(link:any){
+function changelinkColor(link: any){
     const feq = link.frequence;
     if(feq <= 100){
         return '#146C94'
@@ -53,14 +53,14 @@ const Graph: React.FC<Props> = ({myData,width,height,reference}) => {
             <ForceGraph2d 
             ref={reference}
             graphData={myData}
-            backgroundColor = "#BDC3C7"
+            backgroundColor = "#0000000"
             width={width}
             height={height}
             linkDirectionalArrowLength={3}
             linkDirectionalArrowRelPos={1}
             
             linkDirectionalArrowColor = {()=>'#b0f70e'}
-            linkColor={(link:any) => changelinkColor(link)}
+            linkColor={(link: any) => changelinkColor(link)}
             nodeCanvasObject={(node, ctx, scale)=>{textOnNode(node,ctx,scale)}}
             onNodeClick = {dispalyNode}
             linkCurvature = {0.4}
@@ -73,7 +73,7 @@ const Graph: React.FC<Props> = ({myData,width,height,reference}) => {
                     left:'5%',
                     width: '350px',
                     zIndex:1000,
-                    background: 'rgba(0,0,0,0.8)',
+                    background: 'rgba(0,205,102,0.5)',
                     padding: '30px',
                     borderRadius:'5px',
                     boxShadow:'0px 0px 10px rgba(0, 0, 0, 0.4)'
