@@ -75,11 +75,11 @@ def job():
                         output_data["links"].append({"source": source, "target": target, "frequence": 0})
 
                         if source not in unique_nodes:
-                            output_data["nodes"].append({"id": source, "TraceID": traceID, "StartTime": startTime, "color": "#19A7CE", "textcolor" : "Black"})
+                            output_data["nodes"].append({"id": source, "TraceID": traceID, "StartTime": startTime, "color": "#19A7CE", "textcolor" : "white"})
                             unique_nodes.add(source)
 
                         if target not in unique_nodes:
-                            output_data["nodes"].append({"id": target, "TraceID": traceID, "StartTime": startTime, "color": "#19A7CE", "textcolor" : "Black"})
+                            output_data["nodes"].append({"id": target, "TraceID": traceID, "StartTime": startTime, "color": "#19A7CE", "textcolor" : "white"})
                             unique_nodes.add(target)
 
                 else:
