@@ -20,7 +20,7 @@ export const SimplePanel: React.FC<Props> = ({options, data, width, height}) => 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('http://127.0.0.1:5000/logging');
+        const response = await fetch('http://localhost:5000/logging');
         const jsonData = await response.json();
         setMyData(jsonData);
       } catch (error) {
@@ -38,11 +38,10 @@ export const SimplePanel: React.FC<Props> = ({options, data, width, height}) => 
       }
 
       let antiPattern = antidetector.findBottlenecks(myData.nodes, myData.links, options.threshold) as any
-      if(options.algorithm == 'nanoservices'){
+      if(options.algorithm === 'nanoservices'){
         antiPattern = antidetector.findNanoservices(myData.nodes, myData.links, options.threshold) as any
       }
 
-      console.log(antiPattern)
 
       const cycles = antidetector.findCycles(myData.nodes, myData.links) as any;
       const newNodes = [] as any;
