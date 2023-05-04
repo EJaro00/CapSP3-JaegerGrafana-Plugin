@@ -1,0 +1,37 @@
+{
+  "name": "capstone-group-3-train-ticket-plugin",
+  "version": "1.0.0",
+  "description": "It is a anti pattern for train ticket Grafana plugin",
+  "scripts": {
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch",
+    "sign": "grafana-toolkit plugin:sign",
+    "start": "yarn watch"
+  },
+  "author": "Maiqi Hou, Yangzekun Gao, Zhengyan Hu, Eric Jaroszewski, Evan Berryman",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@grafana/toolkit": "latest",
+    "@types/d3": "^7.4.0",
+    "@types/node": "^18.15.11",
+    "@types/three": "^0.150.0",
+    "csv-loader": "^3.0.5"
+  },
+  "dependencies": {
+    "@grafana/data": "latest",
+    "@grafana/ui": "latest",
+    "csv-parse": "^5.3.6",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-force-graph-2d": "^1.24.0",
+    "react-force-graph-3d": "^1.22.0",
+    "three": "^0.151.0",
+    "three-spritetext": "^1.8.0",
+    "ts-csv-loader": "^1.0.4"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

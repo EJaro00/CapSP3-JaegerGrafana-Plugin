@@ -1,0 +1,323 @@
+{
+  "nodes": [
+    {
+      "id": "ts-ticketinfo-service",
+      "TraceID": "67b170e755bf2ae7",
+      "StartTime": 1681850851811000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-basic-service",
+      "TraceID": "67b170e755bf2ae7",
+      "StartTime": 1681850851811000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-travel-service",
+      "TraceID": "67b170e755bf2ae7",
+      "StartTime": 1681850851807000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-route-service",
+      "TraceID": "67b170e755bf2ae7",
+      "StartTime": 1681850851908000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-order-service",
+      "TraceID": "67b170e755bf2ae7",
+      "StartTime": 1681850852594000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-station-service",
+      "TraceID": "67b170e755bf2ae7",
+      "StartTime": 1681850851814000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-train-service",
+      "TraceID": "67b170e755bf2ae7",
+      "StartTime": 1681850852190000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-price-service",
+      "TraceID": "67b170e755bf2ae7",
+      "StartTime": 1681850852290000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-seat-service",
+      "TraceID": "67b170e755bf2ae7",
+      "StartTime": 1681850853291000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-config-service",
+      "TraceID": "67b170e755bf2ae7",
+      "StartTime": 1681850853488000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-preserve-service",
+      "TraceID": "1c4b71e12680f15f",
+      "StartTime": 1681850757199000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-contacts-service",
+      "TraceID": "1c4b71e12680f15f",
+      "StartTime": 1681850757199000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-security-service",
+      "TraceID": "1c4b71e12680f15f",
+      "StartTime": 1681850756889000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-order-other-service",
+      "TraceID": "1c4b71e12680f15f",
+      "StartTime": 1681850757100000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-food-service",
+      "TraceID": "1c4b71e12680f15f",
+      "StartTime": 1681850757906000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-user-service",
+      "TraceID": "1c4b71e12680f15f",
+      "StartTime": 1681850757917000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-notification-service",
+      "TraceID": "1c4b71e12680f15f",
+      "StartTime": 1681850757926000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-rebook-service",
+      "TraceID": "f8853e4dc1c2d19a",
+      "StartTime": 1681850856188000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-cancel-service",
+      "TraceID": "be5d390ff60b6cc3",
+      "StartTime": 1681850841492000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-food-map-service",
+      "TraceID": "7e7cbca61b1dd59a",
+      "StartTime": 1681850752687000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-inside-payment-service",
+      "TraceID": "407c28841eec71a2",
+      "StartTime": 1681850837820000,
+      "color": "#19A7CE"
+    },
+    {
+      "id": "ts-payment-service",
+      "TraceID": "407c28841eec71a2",
+      "StartTime": 1681850837896000,
+      "color": "#19A7CE"
+    }
+  ],
+  "links": [
+    {
+      "source": "ts-ticketinfo-service",
+      "target": "ts-basic-service",
+      "frequence": 658
+    },
+    {
+      "source": "ts-travel-service",
+      "target": "ts-ticketinfo-service",
+      "frequence": 624
+    },
+    {
+      "source": "ts-travel-service",
+      "target": "ts-route-service",
+      "frequence": 544
+    },
+    {
+      "source": "ts-travel-service",
+      "target": "ts-order-service",
+      "frequence": 84
+    },
+    {
+      "source": "ts-basic-service",
+      "target": "ts-station-service",
+      "frequence": 1015
+    },
+    {
+      "source": "ts-basic-service",
+      "target": "ts-route-service",
+      "frequence": 118
+    },
+    {
+      "source": "ts-basic-service",
+      "target": "ts-train-service",
+      "frequence": 118
+    },
+    {
+      "source": "ts-basic-service",
+      "target": "ts-price-service",
+      "frequence": 118
+    },
+    {
+      "source": "ts-travel-service",
+      "target": "ts-train-service",
+      "frequence": 299
+    },
+    {
+      "source": "ts-travel-service",
+      "target": "ts-seat-service",
+      "frequence": 169
+    },
+    {
+      "source": "ts-seat-service",
+      "target": "ts-config-service",
+      "frequence": 169
+    },
+    {
+      "source": "ts-seat-service",
+      "target": "ts-travel-service",
+      "frequence": 429
+    },
+    {
+      "source": "ts-seat-service",
+      "target": "ts-order-service",
+      "frequence": 214
+    },
+    {
+      "source": "ts-preserve-service",
+      "target": "ts-contacts-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-preserve-service",
+      "target": "ts-security-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-security-service",
+      "target": "ts-order-other-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-security-service",
+      "target": "ts-order-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-preserve-service",
+      "target": "ts-station-service",
+      "frequence": 67
+    },
+    {
+      "source": "ts-preserve-service",
+      "target": "ts-ticketinfo-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-preserve-service",
+      "target": "ts-travel-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-preserve-service",
+      "target": "ts-order-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-preserve-service",
+      "target": "ts-seat-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-preserve-service",
+      "target": "ts-food-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-preserve-service",
+      "target": "ts-user-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-preserve-service",
+      "target": "ts-notification-service",
+      "frequence": 33
+    },
+    {
+      "source": "ts-rebook-service",
+      "target": "ts-station-service",
+      "frequence": 21
+    },
+    {
+      "source": "ts-rebook-service",
+      "target": "ts-order-service",
+      "frequence": 10
+    },
+    {
+      "source": "ts-rebook-service",
+      "target": "ts-travel-service",
+      "frequence": 10
+    },
+    {
+      "source": "ts-rebook-service",
+      "target": "ts-seat-service",
+      "frequence": 10
+    },
+    {
+      "source": "ts-cancel-service",
+      "target": "ts-order-service",
+      "frequence": 1
+    },
+    {
+      "source": "ts-food-service",
+      "target": "ts-station-service",
+      "frequence": 19
+    },
+    {
+      "source": "ts-food-service",
+      "target": "ts-food-map-service",
+      "frequence": 19
+    },
+    {
+      "source": "ts-food-service",
+      "target": "ts-travel-service",
+      "frequence": 9
+    },
+    {
+      "source": "ts-inside-payment-service",
+      "target": "ts-order-service",
+      "frequence": 5
+    },
+    {
+      "source": "ts-inside-payment-service",
+      "target": "ts-payment-service",
+      "frequence": 2
+    },
+    {
+      "source": "ts-order-other-service",
+      "target": "ts-station-service",
+      "frequence": 7
+    },
+    {
+      "source": "ts-order-service",
+      "target": "ts-station-service",
+      "frequence": 7
+    }
+  ]
+}
