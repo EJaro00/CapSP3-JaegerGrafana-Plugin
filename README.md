@@ -62,3 +62,6 @@ Download the train-ticket-plugin folder, using VS code open it, and call the ter
    ```bash
    yarn watch
    ```
+
+---
+## Deploy Train-Ticket
