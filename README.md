@@ -30,7 +30,6 @@ Now you can access using http://localhost:5000/logging and it is your tracing fi
 ## Grafana panel
 ___Make sure you have run `Jaeger Tracing.exe` first___
 
----
 * Prerequisites
     1. Grafana: higher than 7.0.0 (For my Grafana version is 9.3.6)
     2. NodeJS:  >= 14 (16 Recommanded for Ubuntu 22.04 LTS)
@@ -48,7 +47,6 @@ ___Make sure you have run `Jaeger Tracing.exe` first___
      ```bash
     sudo apt-get install nodejs
     ```
----
 
 Download the train-ticket-plugin folder, using VS code open it, and call the terminal to run these commands.
 1. Install dependencies
@@ -62,6 +60,3 @@ Download the train-ticket-plugin folder, using VS code open it, and call the ter
    ```bash
    yarn watch
    ```
-
----
-## Deploy Train-Ticket
