@@ -52,7 +52,7 @@ export const SimplePanel: React.FC<Props> = ({options, data, width, height}) => 
           myData.nodes[i].color = '#E90064';
         }
         if(antiPattern.has(myData.nodes[i].id)){
-          myData.nodes[i].textcolor = "Red"
+          myData.nodes[i].textcolor = "Orange"
         }
         newNodes.push(myData.nodes[i]);
       }
