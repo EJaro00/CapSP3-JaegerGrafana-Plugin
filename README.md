@@ -13,7 +13,7 @@ ___Make sure you have deployed Train-ticket and Jaeger before you run this execu
 
 Our group provides a `Jaeger Tracing.exe` to help users to trace each microservices and comprehensive a completed local file.
 
-___If the exectuable file has some problem, please open the Python Program and run app.py___
+___If the exectuable file has some problem, please open the Python Program(in the logfile) and run app.py___
 
 Once you open the executable file, it allows users to enter an IP address and a port, which is the IP and port of your developed Jaeger.
 We also offer two options for tracing mode: `5m`-traceing recently 5 minutes data and `ALL`-tracing data within 2 days.
@@ -30,7 +30,7 @@ Now you can access using http://localhost:5000/logging and it is your tracing fi
 
 ---
 ## Grafana panel
-___Make sure you have run `Jaeger Tracing.exe` first___
+___Make sure you have run `Jaeger Tracing.exe` or run `app.py` in the logfile folder first___
 
 * Prerequisites
     1. Grafana: higher than 7.0.0 (For my Grafana version is 9.3.6)
