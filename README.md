@@ -101,7 +101,7 @@ When there is a small amount of data captured
 
 When a large amount of data is captured
 
-![amountdata](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/8.png)
+![amountdata](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/8.PNG)
 
 ![amoutdata-graph2d](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/9.png)
 
