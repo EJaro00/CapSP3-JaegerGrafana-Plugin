@@ -12,6 +12,7 @@ Team Members: `Evan Berryman`,`Yangzekun Gao`,`Zhengyan Hu`,`Maiqi Hou`
 ___Make sure you have deployed Train-ticket and Jaeger before you run this executable file___
 
 Our group provides a `Jaeger Tracing.exe` to help users to trace each microservices and comprehensive a completed local file. 
+__If the exectuable file has some problem, please open the Python Program and run app.py___
 
 Once you open the executable file, it allows users to enter an IP address and a port, which is the IP and port of your developed Jaeger.
 We also offer two options for tracing mode: `5m`-traceing recently 5 minutes data and `ALL`-tracing data within 2 days.
