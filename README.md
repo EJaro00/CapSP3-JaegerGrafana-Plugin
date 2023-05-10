@@ -101,10 +101,10 @@ When there is a small amount of data captured
 
 When a large amount of data is captured
 
-![amountdata](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/6.png)
+![amountdata](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/8.png)
 
-![amoutdata-graph2d](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/7.png)
+![amoutdata-graph2d](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/9.png)
 
-![amountdata-graph3d](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/7.png)
+![amountdata-graph3d](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/10.png)
 
 We provide two video demo [Train-Ticket](https://github.com/FudanSELab/train-ticket)
