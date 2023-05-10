@@ -107,4 +107,4 @@ When a large amount of data is captured
 
 ![amountdata-graph3d](https://github.com/EJaro00/CapSP3-JaegerGrafana-Plugin/blob/main/IMG/10.png)
 
-We provide two video demo [Train-Ticket](https://github.com/FudanSELab/train-ticket)
+We provide two video demo [DEMO](https://github.com/FudanSELab/train-ticket)
